@@ -16,3 +16,9 @@ class Occupant(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=254)
 
+class Contract(models.Model):
+    apartment = models.OneToOneField(Apartment, on_delete=models.CASCADE)
+    occupant = models.OneToOneField(Occupant, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True)
+
