@@ -49,6 +49,9 @@ class ContractAssigmentTest(TestCase):
         self.assertEqual(assignement.apartment.address, '15 rue de la République')
         self.assertEqual(assignement.occupant.first_name, 'Pedro')        
 
-
+class ItemsListTest(TestCase):
+    def test_add_items_list(self):
+        # Test in TDD, we check there's no items list created
+        self.assertEqual(ItemsList.objects.count(), 0)
 
         
