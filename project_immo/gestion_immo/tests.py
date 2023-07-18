@@ -12,3 +12,8 @@ class ApartmentTest(TestCase):
         # test if apartment 1 is created
         self.assertEqual(Apartment.objects.count(), 1)
         self.assertEqual(apartment_1.address, '15 rue de la République')
+
+class OcupantTest(TestCase):
+    def test_add_ocupant(self):
+        # Test in TDD, we check there's no ocupant created
+        self.assertEqual(Ocupant.objects.count(), 0)       
