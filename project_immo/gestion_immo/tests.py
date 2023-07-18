@@ -1,3 +1,4 @@
+from datetime import date
 from django.test import TestCase
 from .models import Apartment, Ocupant
 
@@ -22,3 +23,12 @@ class OcupantTest(TestCase):
         # test if ocupant 1 is created
         self.assertEqual(Ocupant.objects.count(), 1)
         self.assertEqual(ocupant_1.first_name, 'Pedro')
+
+class ContractAssigmentTest(TestCase):
+    def setUp(self):
+        ocupant_1 = Ocupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
+        apartment_1 = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
+    def test_ocupant_entering_apartment(self):
+        self.assertEqual(Contract.objects.count(), 0)
+
+        
