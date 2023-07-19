@@ -1,6 +1,6 @@
 from datetime import date
 from django.test import TestCase
-from .models import Apartment, Occupant, Contract
+from .models import Apartment, Occupant, Contract, ItemsList
 
 # Create your tests here.
 
@@ -50,8 +50,30 @@ class ContractAssigmentTest(TestCase):
         self.assertEqual(assignement.occupant.first_name, 'Pedro')        
 
 class ItemsListTest(TestCase):
-    def test_add_items_list(self):
+    def setUp(self):
         # Test in TDD, we check there's no items list created
         self.assertEqual(ItemsList.objects.count(), 0)
+        # create occupant and apartment for the contract
+        self.occupant = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
+        self.apartment = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
+        # create the contract
+        self.start_date = date.today()
+        contract_duration = self.start_date.year + 3
+        self.end_date = self.start_date.replace(contract_duration)
+        # create items list
+        self.contract = Contract.objects.create(apartment = self.apartment, occupant = self.occupant, start_date = self.start_date, end_date = self.end_date)
+        self.date = date.today()
+        self.comments = 'Meubles légèrement abimés'
+        self.list_type = 'Entry'
+        self.items_list = ItemsList.objects.create(contract=self.contract, date=self.date, list_type=self.list_type, comments=self.comments)
 
-        
+    def test_add_items_list(self):
+        # Test in TDD, we check there's 1 item list created
+        self.assertEqual(ItemsList.objects.count(), 1)
+        # We check the values and strings are the one entered
+        self.assertEqual(self.items_list.contract, self.contract)
+        self.assertEqual(self.items_list.date, self.date)
+        self.assertEqual(self.items_list.comments, self.comments)
+        self.assertEqual(self.items_list.comments, 'Meubles légèrement abimés')
+        self.assertEqual(self.items_list.list_type, self.list_type)
+        self.assertEqual(self.items_list.list_type, 'Entry')
