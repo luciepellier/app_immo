@@ -77,3 +77,7 @@ class ItemsListTest(TestCase):
         self.assertEqual(self.items_list.comments, 'Meubles légèrement abimés')
         self.assertEqual(self.items_list.list_type, self.list_type)
         self.assertEqual(self.items_list.list_type, 'Entry')
+
+class PaymentTest(TestCase):
+    def test_add_payment(self):
+        self.assertEqual(Payment.objects.count(), 1)
