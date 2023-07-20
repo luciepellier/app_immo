@@ -1,6 +1,6 @@
 from datetime import date
 from django.test import TestCase
-from .models import Apartment, Occupant, Contract, ItemsList
+from .models import Apartment, Occupant, Contract, ItemsList, Payment
 
 # Create your tests here.
 
@@ -79,5 +79,32 @@ class ItemsListTest(TestCase):
         self.assertEqual(self.items_list.list_type, 'Entry')
 
 class PaymentTest(TestCase):
+
+    def setUp(self):
+        # Test in TDD, we check there's no payment created
+        self.assertEqual(ItemsList.objects.count(), 0)
+        # create occupant and apartment for the contract
+        self.occupant = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
+        self.apartment = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
+        # create the contract
+        self.start_date = date.today()
+        contract_duration = self.start_date.year + 3
+        self.end_date = self.start_date.replace(contract_duration)
+        # create payment
+        self.contract = Contract.objects.create(apartment=self.apartment, occupant=self.occupant, start_date=self.start_date, end_date=self.end_date)
+        self.date = date.today()
+        self.payment_type = 'Rent'
+        self.payment_source = 'Occupant'
+        self.price = 1200.00
+        self.payment = Payment.objects.create(contract=self.contract, date=self.date, payment_type=self.payment_type, payment_source=self.payment_source, price=self.price)
+
     def test_add_payment(self):
+        # We check there's a payment created
         self.assertEqual(Payment.objects.count(), 1)
+        # We check the values are the same as the ones entered               
+        self.assertEqual(self.payment.contract, self.contract)
+        self.assertEqual(self.payment.date, self.date)
+        self.assertEqual(self.payment.payment_type, self.payment_type)
+        self.assertEqual(self.payment.payment_source, self.payment_source)
+        self.assertEqual(self.payment.price, self.price)
+
