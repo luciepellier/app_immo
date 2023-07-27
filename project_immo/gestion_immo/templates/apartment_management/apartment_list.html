@@ -1,0 +1,49 @@
+{% extends 'apartment_management/base.html' %}
+
+{% block content %}
+
+<table class="table table-borderless">
+<thead class="border-bottom font-weight-bold">
+    <tr class="">
+        <td>Adresse</td>
+        <td>Complément d'adresse</td>
+        <td>Code postal</td>
+        <td>Ville</td>
+        <td>Loyer (€)</td>
+        <td>Charges (€)</td>
+        <td>Dépôt de garantie (€)</td>
+        <td>
+            <a href="{% url 'apartment_insert' %}" class="btn btn-outline-success">
+                <i class="fas fa-plus"></i> Ajouter un appartement
+            </a>
+        </td>
+    </tr>
+</thead>
+    <tbody>
+        {% for apartment in apartment_list %}
+            <tr>
+                <td>{{apartment.address}}</td>
+                <td>{{apartment.address_complement}}</td>
+                <td>{{apartment.postal_code}}</td>
+                <td>{{apartment.city}}</td>
+                <td>{{apartment.rental_price}}</td>
+                <td>{{apartment.charges_price}}</td>
+                <td>{{apartment.deposit_price}}</td>
+                <td>
+                    <a href="{% url 'apartment_update' apartment.id %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'apartment_delete' apartment.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button> 
+                    </form>
+                </td>
+            </tr>
+        {% endfor  %}
+    </tbody>
+
+</table>
+
+{% endblock content %}

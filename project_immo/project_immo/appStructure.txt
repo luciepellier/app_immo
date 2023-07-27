@@ -1,0 +1,21 @@
+● project_immo
+|
++---● gestion_immo (app folder)
+|   |
+|   +--● migrations (includes files related to migrations)
+|   |  
+|   +--● templates
+|   |  |--● apartment_management
+|   |  |  |--base.html
+|   |  |  |--apartment_form.html
+|   |  |  |--apartment_list.html
+|   | 
+|   |-- forms.py
+|   |-- models.py
+|   |-- urls.py
+|   |-- views.py
+|
++---● project_immo (project folder)
+|   |
+|   |--settings.py 
+|   |--urls.py

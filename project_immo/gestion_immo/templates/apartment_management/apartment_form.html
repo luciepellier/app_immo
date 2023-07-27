@@ -1,0 +1,31 @@
+{% extends 'apartment_management/base.html' %}
+{% load crispy_forms_tags %} 
+
+{% block content %}
+<form action="" method="post" autocomplete="off">
+    {% csrf_token %}
+    {{form.address|as_crispy_field}}
+    {{form.address_complement|as_crispy_field}}
+    <div class="row">
+        <div class="col-md-4">
+            {{form.postal_code|as_crispy_field}}
+        </div>
+        <div class="col-md-8">
+            {{form.city|as_crispy_field}}
+        </div>
+    </div>
+    {{form.rental_price|as_crispy_field}}
+    {{form.charges_price|as_crispy_field}}
+    {{form.deposit_price|as_crispy_field}}
+    <div class="row">
+        <div class="col-md-8 d-grid gap-2">
+            <button type="submit" class="btn btn-success btn-lg"><i class="fa-solid fa-floppy-disk"></i> </i>Enregistrer</button>
+        </div>
+        <div class="col-md-4 d-grid gap-2">
+            <a href="{% url 'apartment_list' %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-list"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+</form>
+{% endblock content %}
