@@ -15,6 +15,10 @@ class ApartmentForm(forms.ModelForm):
             'deposit_price': 'Montant du dépôt de garantie',
         }
 
+    def __init__(self, *args, **kwargs):
+        super(ApartmentForm, self).__init__(*args, **kwargs)
+        self.fields['address_complement'].required = False
+
 class OccupantForm(forms.ModelForm):
 
     class Meta:
