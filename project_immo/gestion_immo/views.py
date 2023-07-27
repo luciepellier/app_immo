@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ApartmentForm, OccupantForm
-from .models import Apartment, Occupant
+from .forms import ApartmentForm, OccupantForm, ContractForm
+from .models import Apartment, Occupant, Contract
 
 # Create your views here.
 
@@ -77,3 +77,40 @@ def occupant_delete(request,id):
     occupant = Occupant.objects.get(pk=id)
     occupant.delete()
     return redirect('/occupant/list')
+
+# Functions to get a list and add, edit and remove a Contract (linking an Apartment and a Occupant)
+
+def contract_list(request):
+    context = {'contract_list' : Contract.objects.all()}
+    return render(request, 'contract_management/contract_list.html', context)
+
+def contract_form(request, id=0):
+    # manage get request
+    if request.method == 'GET':
+        if id == 0:
+            form = ContractForm()
+        else:
+            #filter by id
+            contract = Contract.objects.get(pk=id)
+            # return the form object
+            form = ContractForm(instance = contract)
+        return render(request, 'contract_management/contract_form.html', {'form':form})
+    # manage post request
+    else:
+        # if id is 0 a new occupant is created
+        if id == 0:
+            form = ContractForm(request.POST)
+        # otherwise the occupant info is updated
+        else:
+            contract = Contract.objects.get(pk=id)
+            form = ContractForm(request.POST, instance = contract) 
+        # if the validation is ok then save to db          
+        if form.is_valid():
+            form.save()
+        # redirect to the list to check
+        return redirect('/contract/list')
+
+def contract_delete(request,id):
+    contract = Contract.objects.get(pk=id)
+    contract.delete()
+    return redirect('/contract/list')

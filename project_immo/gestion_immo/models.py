@@ -12,16 +12,25 @@ class Apartment(models.Model):
     charges_price = models.DecimalField(max_digits=10, decimal_places=2)
     deposit_price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return self.address
+
 class Occupant(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=254)
 
+    def __str__(self):
+        return self.last_name
+
 class Contract(models.Model):
     apartment = models.OneToOneField(Apartment, on_delete=models.CASCADE)
-    occupant = models.OneToOneField(Occupant, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField(null=True)
+    occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=True, null=True) 
+
+    def __str__(self):
+        return f"{self.occupant.first_name} {self.occupant.last_name} -  {self.apartment.address}"
 
 class ItemsList(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
