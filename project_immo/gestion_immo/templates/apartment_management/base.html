@@ -10,6 +10,27 @@
 </head>
 <body>
     <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light"> 
+            <a class="navbar-brand " href="#">INFECO</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'apartment_list' %}">Appartements <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'occupant_list' %}">Locataires</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contract_list' %}">Contrats</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
         <div class="col-md-10 offset-md-1 mt-5">
             <div class="jumbotron">
                 <h1 class="display-4">Gestio Immo</h1>
