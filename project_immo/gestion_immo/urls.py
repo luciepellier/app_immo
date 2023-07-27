@@ -26,4 +26,9 @@ urlpatterns = [
     path('contract/delete/<int:id>/', views.contract_delete, name='contract_delete'),    
     # get request to get & display all the occupant in a list
     path('contract/list/', views.contract_list, name='contract_list'),    
+    # routes for items list
+    path('itemslist/', views.itemslist_form, name='itemslist_insert'),
+    path('itemslist/<int:id>/', views.itemslist_form, name='itemslist_update'),
+    path('itemslist/delete/<int:id>/', views.itemslist_delete, name='itemslist_delete'),    
+    path('itemslist/list/', views.itemslist_list, name='itemslist_list'),  
 ]

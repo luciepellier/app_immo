@@ -1,0 +1,28 @@
+{% extends 'apartment_management/base.html' %}
+{% load crispy_forms_tags %} 
+
+{% block content %}
+<form action="" method="post" autocomplete="off">
+    {% csrf_token %}
+    {{form.contract|as_crispy_field}}
+    <div class="row">
+        <div class="col-md-4">
+            {{form.date|as_crispy_field}}
+        </div>
+        <div class="col-md-8">
+            {{form.list_type|as_crispy_field}}
+        </div>
+    </div>
+    {{form.comments|as_crispy_field}}
+    <div class="row">
+        <div class="col-md-8 d-grid gap-2">
+            <button type="submit" class="btn btn-success btn-lg"><i class="fa-solid fa-floppy-disk"></i> </i>Enregistrer</button>
+        </div>
+        <div class="col-md-4 d-grid gap-2">
+            <a href="{% url 'itemslist_list' %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-list"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+</form>
+{% endblock content %}

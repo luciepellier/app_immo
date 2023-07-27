@@ -1,5 +1,5 @@
 from django import forms
-from .models import Apartment, Occupant, Contract
+from .models import Apartment, Occupant, Contract, ItemsList
 
 class ApartmentForm(forms.ModelForm):
     class Meta:
@@ -18,8 +18,6 @@ class ApartmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ApartmentForm, self).__init__(*args, **kwargs)
         self.fields['address_complement'].required = False
-
-    
 
 class OccupantForm(forms.ModelForm):
 
@@ -49,3 +47,18 @@ class ContractForm(forms.ModelForm):
         self.fields['apartment'].empty_label = 'Sélectionner un appartement'
         self.fields['occupant'].empty_label = 'Sélectionner un locataire'
 
+class ItemsListForm(forms.ModelForm):
+
+    class Meta:
+        model = ItemsList
+        fields = ('contract','date','list_type', 'comments')
+        labels = {
+            'contract' : 'Contrat',
+            'date' : 'Date',
+            'list_type' : 'Type d\'état des lieux',
+            'comments' : 'Commentaires',
+        }      
+
+    def __init__(self, *args, **kwargs):
+        super(ItemsListForm,self).__init__(*args, **kwargs)
+        self.fields['contract'].empty_label = 'Sélectionner un contrat'

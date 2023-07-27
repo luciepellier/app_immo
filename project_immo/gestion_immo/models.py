@@ -34,11 +34,11 @@ class Contract(models.Model):
 
 class ItemsList(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(blank=False)
     class ListType(models.TextChoices):
-        ENTRY = 'Entry', _('Entry Items List')
-        EXIT = 'Exit', _('Exit Items List')
-    list_type = models.CharField(max_length=5, choices=ListType.choices, default=ListType.ENTRY, null=False)
+        ENTRÉE = 'Entrée', _('D\'entrée')
+        SORTIE = 'Sortie', _('De sortie')
+    list_type = models.CharField(max_length=6, choices=ListType.choices, default=ListType.ENTRÉE, null=False)
     comments = models.TextField()
 
 class Payment(models.Model):

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ApartmentForm, OccupantForm, ContractForm
-from .models import Apartment, Occupant, Contract
+from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm
+from .models import Apartment, Occupant, Contract, ItemsList
 
 # Create your views here.
 
@@ -114,3 +114,40 @@ def contract_delete(request,id):
     contract = Contract.objects.get(pk=id)
     contract.delete()
     return redirect('/contract/list')
+
+# Functions to get a list and add, edit and remove an ItemsList linked to a Contract
+
+def itemslist_list(request):
+    context = {'itemslist_list' : ItemsList.objects.all()}
+    return render(request, 'itemslist_management/itemslist_list.html', context)
+
+def itemslist_form(request, id=0):
+    # manage get request
+    if request.method == 'GET':
+        if id == 0:
+            form = ItemsListForm()
+        else:
+            #filter by id
+            itemslist = ItemsList.objects.get(pk=id)
+            # return the form object
+            form = ItemsListForm(instance = itemslist)
+        return render(request, 'itemslist_management/itemslist_form.html', {'form':form})
+    # manage post request
+    else:
+        # if id is 0 a new occupant is created
+        if id == 0:
+            form = ItemsListForm(request.POST)
+        # otherwise the occupant info is updated
+        else:
+            itemslist = ItemsList.objects.get(pk=id)
+            form = ItemsListForm(request.POST, instance = itemslist) 
+        # if the validation is ok then save to db          
+        if form.is_valid():
+            form.save()
+        # redirect to the list to check
+        return redirect('/itemslist/list')
+
+def itemslist_delete(request,id):
+    itemslist = ItemsList.objects.get(pk=id)
+    itemslist.delete()
+    return redirect('/itemslist/list')
