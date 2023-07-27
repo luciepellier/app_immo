@@ -1,8 +1,7 @@
 from django import forms
-from .models import Apartment
+from .models import Apartment, Occupant
 
 class ApartmentForm(forms.ModelForm):
-
     class Meta:
         model = Apartment
         fields = ('address','address_complement','postal_code','city','rental_price','charges_price','deposit_price')
@@ -15,3 +14,14 @@ class ApartmentForm(forms.ModelForm):
             'charges_price': 'Montant des charges',
             'deposit_price': 'Montant du dépôt de garantie',
         }
+
+class OccupantForm(forms.ModelForm):
+
+    class Meta:
+        model = Occupant
+        fields = ('first_name','last_name','email')
+        labels = {
+            'first_name' : 'Prénom',
+            'last_name' : 'Nom',
+            'email' : 'E-mail',
+        }      

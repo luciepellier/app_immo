@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ApartmentForm
-from .models import Apartment
+from .forms import ApartmentForm, OccupantForm
+from .models import Apartment, Occupant
 
 # Create your views here.
 
@@ -40,3 +40,40 @@ def apartment_delete(request,id):
     apartment = Apartment.objects.get(pk=id)
     apartment.delete()
     return redirect('/apartment/list')
+
+# Functions to get a list and add, edit and remove an occupant
+
+def occupant_list(request):
+    context = {'occupant_list' : Occupant.objects.all()}
+    return render(request, 'occupant_management/occupant_list.html', context)
+
+def occupant_form(request, id=0):
+    # manage get request
+    if request.method == 'GET':
+        if id == 0:
+            form = OccupantForm()
+        else:
+            #filter by id
+            occupant = Occupant.objects.get(pk=id)
+            # return the form object
+            form = OccupantForm(instance = occupant)
+        return render(request, 'occupant_management/occupant_form.html', {'form':form})
+    # manage post request
+    else:
+        # if id is 0 a new occupant is created
+        if id == 0:
+            form = OccupantForm(request.POST)
+        # otherwise the occupant info is updated
+        else:
+            occupant = Occupant.objects.get(pk=id)
+            form = OccupantForm(request.POST, instance = occupant) 
+        # if the validation is ok then save to db          
+        if form.is_valid():
+            form.save()
+        # redirect to the list to check
+        return redirect('/occupant/list')
+
+def occupant_delete(request,id):
+    occupant = Occupant.objects.get(pk=id)
+    occupant.delete()
+    return redirect('/occupant/list')

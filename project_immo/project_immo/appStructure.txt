@@ -9,6 +9,9 @@
 |   |  |  |--base.html
 |   |  |  |--apartment_form.html
 |   |  |  |--apartment_list.html
+|   |  |--● occupant_management
+|   |  |  |--occupant_form.html
+|   |  |  |--occupant_list.html
 |   | 
 |   |-- forms.py
 |   |-- models.py
