@@ -13,7 +13,7 @@ class Apartment(models.Model):
     deposit_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return self.address
+        return f"{self.address} {self.address_complement}, {self.postal_code} {self.city}"
 
 class Occupant(models.Model):
     first_name = models.CharField(max_length=100)
@@ -21,7 +21,7 @@ class Occupant(models.Model):
     email = models.EmailField(max_length=254)
 
     def __str__(self):
-        return self.last_name
+        return f"{self.last_name}, {self.first_name}"
 
 class Contract(models.Model):
     apartment = models.OneToOneField(Apartment, on_delete=models.CASCADE)
@@ -30,7 +30,7 @@ class Contract(models.Model):
     end_date = models.DateField(blank=True, null=True) 
 
     def __str__(self):
-        return f"{self.occupant.first_name} {self.occupant.last_name} -  {self.apartment.address}"
+        return f"{self.occupant.last_name} {self.occupant.first_name}  /  {self.apartment.address} {self.apartment.address_complement}, {self.apartment.postal_code} {self.apartment.city}"
 
 class ItemsList(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
