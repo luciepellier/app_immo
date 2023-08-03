@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm
-from .models import Apartment, Occupant, Contract, ItemsList
+from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm
+from .models import Apartment, Occupant, Contract, ItemsList, Payment
 
 # Create your views here.
 
@@ -134,10 +134,10 @@ def itemslist_form(request, id=0):
         return render(request, 'itemslist_management/itemslist_form.html', {'form':form})
     # manage post request
     else:
-        # if id is 0 a new occupant is created
+        # if id is 0 a new itemlist is created
         if id == 0:
             form = ItemsListForm(request.POST)
-        # otherwise the occupant info is updated
+        # otherwise the itemlist info is updated
         else:
             itemslist = ItemsList.objects.get(pk=id)
             form = ItemsListForm(request.POST, instance = itemslist) 
@@ -151,3 +151,40 @@ def itemslist_delete(request,id):
     itemslist = ItemsList.objects.get(pk=id)
     itemslist.delete()
     return redirect('/itemslist/list')
+
+# Functions to get a list and add, edit and remove a Payment linked to a Contract
+
+def payment_list(request):
+    context = {'payment_list' : Payment.objects.all()}
+    return render(request, 'payment_management/payment_list.html', context)
+
+def payment_form(request, id=0):
+    # manage get request
+    if request.method == 'GET':
+        if id == 0:
+            form = PaymentForm()
+        else:
+            #filter by id
+            payment = Payment.objects.get(pk=id)
+            # return the form object
+            form = PaymentForm(instance = payment)
+        return render(request, 'payment_management/payment_form.html', {'form':form})
+    # manage post request
+    else:
+        # if id is 0 a new payment is created
+        if id == 0:
+            form = PaymentForm(request.POST)
+        # otherwise the payment info is updated
+        else:
+            payment = Payment.objects.get(pk=id)
+            form = PaymentForm(request.POST, instance = payment) 
+        # if the validation is ok then save to db          
+        if form.is_valid():
+            form.save()
+        # redirect to the list to check
+        return redirect('/payment/list')
+
+def payment_delete(request,id):
+    payment = Payment.objects.get(pk=id)
+    payment.delete()
+    return redirect('/payment/list')

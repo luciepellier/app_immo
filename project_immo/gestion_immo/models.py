@@ -45,11 +45,11 @@ class Payment(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.SET_NULL, null=True)
     date = models.DateField()
     class PaymentType(models.TextChoices):
-        DEPOSIT = 'Deposit', _('Deposit payment')
-        RENT = 'Rent', _('Monthly rent payment')
-    payment_type = models.CharField(max_length=7, choices=PaymentType.choices, default=PaymentType.RENT, null=False)
+        GARANTIE = 'Dépôt de garantie', _('Dépôt de garantie')
+        LOYER = 'Loyer (Charges incluses)', _('Loyer (Charges incluses)')
+    payment_type = models.CharField(max_length=25, choices=PaymentType.choices, default=PaymentType.LOYER, null=False)
     class PaymentSource(models.TextChoices):
-        OCCUPANT = 'Occupant', _('From Occupant')
-        OTHER = 'CAF', _('From CAF')
-    payment_source = models.CharField(max_length=8, choices=PaymentSource.choices, default=PaymentSource.OCCUPANT, null=False)
+        LOCATAIRE = 'Locataire', _('Locataire')
+        AUTRE = 'CAF', _('CAF')
+    payment_source = models.CharField(max_length=25, choices=PaymentSource.choices, default=PaymentSource.LOCATAIRE, null=False)
     price = models.DecimalField(max_digits=10, decimal_places=2)

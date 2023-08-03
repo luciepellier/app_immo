@@ -30,5 +30,10 @@ urlpatterns = [
     path('itemslist/', views.itemslist_form, name='itemslist_insert'),
     path('itemslist/<int:id>/', views.itemslist_form, name='itemslist_update'),
     path('itemslist/delete/<int:id>/', views.itemslist_delete, name='itemslist_delete'),    
-    path('itemslist/list/', views.itemslist_list, name='itemslist_list'),  
+    path('itemslist/list/', views.itemslist_list, name='itemslist_list'),
+    # routes for payment
+    path('payment/', views.payment_form, name='payment_insert'),
+    path('payment/<int:id>/', views.payment_form, name='payment_update'),
+    path('payment/delete/<int:id>/', views.payment_delete, name='payment_delete'),    
+    path('payment/list/', views.payment_list, name='payment_list'),    
 ]

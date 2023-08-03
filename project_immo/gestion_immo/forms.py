@@ -1,5 +1,5 @@
 from django import forms
-from .models import Apartment, Occupant, Contract, ItemsList
+from .models import Apartment, Occupant, Contract, ItemsList, Payment
 
 class ApartmentForm(forms.ModelForm):
     class Meta:
@@ -61,4 +61,21 @@ class ItemsListForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ItemsListForm,self).__init__(*args, **kwargs)
+        self.fields['contract'].empty_label = 'Sélectionner un contrat'
+
+class PaymentForm(forms.ModelForm):
+
+    class Meta:
+        model = Payment
+        fields = ('contract','date','payment_type', 'payment_source', 'price')
+        labels = {
+            'contract' : 'Contrat',
+            'date' : 'Date',
+            'payment_type' : 'Type de paiement',
+            'payment_source' : 'Source',
+            'price' : 'Montant',
+        }      
+
+    def __init__(self, *args, **kwargs):
+        super(PaymentForm,self).__init__(*args, **kwargs)
         self.fields['contract'].empty_label = 'Sélectionner un contrat'

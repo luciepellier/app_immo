@@ -1,0 +1,45 @@
+{% extends 'apartment_management/base.html' %}
+
+{% block content %}
+
+<table class="table table-borderless">
+<thead class="border-bottom font-weight-bold">
+    <tr class="">
+        <td>Contrat</td>
+        <td>Date</td>
+        <td>Type</td>
+        <td>Source</td>
+        <td>Montant</td>
+        <td>
+            <a href="{% url 'payment_insert' %}" class="btn btn-outline-success">
+                <i class="fas fa-plus"></i> Ajouter un paiement
+            </a>
+        </td>
+    </tr>
+</thead>
+    <tbody>
+        {% for payment in payment_list %}
+            <tr>
+                <td>{{payment.contract}}</td>
+                <td>{{payment.date}}</td>
+                <td>{{payment.payment_type}}</td>
+                <td>{{payment.payment_source}}</td>
+                <td>{{payment.price}}</td>
+                <td>
+                    <a href="{% url 'payment_update' payment.id %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'payment_delete' payment.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button> 
+                    </form>
+                </td>
+            </tr>
+        {% endfor  %}
+    </tbody>
+
+</table>
+
+{% endblock content %}
