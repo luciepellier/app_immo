@@ -1,4 +1,6 @@
 from django import forms
+
+from project_immo import settings
 from .models import Apartment, Occupant, Contract, ItemsList, Payment
 
 class ApartmentForm(forms.ModelForm):
@@ -31,7 +33,8 @@ class OccupantForm(forms.ModelForm):
         }      
 
 class ContractForm(forms.ModelForm):
-
+    start_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
+    end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     class Meta:
         model = Contract
         fields = ('apartment','occupant','start_date', 'end_date')
@@ -48,7 +51,7 @@ class ContractForm(forms.ModelForm):
         self.fields['occupant'].empty_label = 'Sélectionner un locataire'
 
 class ItemsListForm(forms.ModelForm):
-
+    date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     class Meta:
         model = ItemsList
         fields = ('contract','date','list_type', 'comments')
@@ -64,7 +67,7 @@ class ItemsListForm(forms.ModelForm):
         self.fields['contract'].empty_label = 'Sélectionner un contrat'
 
 class PaymentForm(forms.ModelForm):
-
+    date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     class Meta:
         model = Payment
         fields = ('contract','date','payment_type', 'payment_source', 'price')

@@ -117,6 +117,10 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
+USE_L10N = False
+
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
+
 USE_I18N = True
 
 USE_TZ = True
