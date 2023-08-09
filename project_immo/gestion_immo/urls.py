@@ -35,5 +35,6 @@ urlpatterns = [
     path('payment/', views.payment_form, name='payment_insert'),
     path('payment/<int:id>/', views.payment_form, name='payment_update'),
     path('payment/delete/<int:id>/', views.payment_delete, name='payment_delete'),    
-    path('payment/list/', views.payment_list, name='payment_list'),    
+    path('payment/list/', views.payment_list, name='payment_list'),
+    path('rental/<int:id>/', views.rental_list, name='rental_list'),
 ]

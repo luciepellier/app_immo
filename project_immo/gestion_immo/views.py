@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Sum
 from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm
 from .models import Apartment, Occupant, Contract, ItemsList, Payment
 
@@ -7,7 +8,7 @@ from .models import Apartment, Occupant, Contract, ItemsList, Payment
 # Apartment views to get a list and add, edit and remove an apartment
 
 def apartment_list(request):
-    context = {'apartment_list' : Apartment.objects.all()}
+    context = {'apartment_list' : Apartment.objects.all().order_by('city','postal_code')}
     return render(request, 'apartment_management/apartment_list.html', context)
 
 def apartment_form(request, id=0):
@@ -44,7 +45,7 @@ def apartment_delete(request,id):
 # Functions to get a list and add, edit and remove an occupant
 
 def occupant_list(request):
-    context = {'occupant_list' : Occupant.objects.all()}
+    context = {'occupant_list' : Occupant.objects.all().order_by('last_name')}
     return render(request, 'occupant_management/occupant_list.html', context)
 
 def occupant_form(request, id=0):
@@ -155,7 +156,7 @@ def itemslist_delete(request,id):
 # Functions to get a list and add, edit and remove a Payment linked to a Contract
 
 def payment_list(request):
-    context = {'payment_list' : Payment.objects.all()}
+    context = {'payment_list' : Payment.objects.all().order_by('-date','contract')}
     return render(request, 'payment_management/payment_list.html', context)
 
 def payment_form(request, id=0):
@@ -188,3 +189,12 @@ def payment_delete(request,id):
     payment = Payment.objects.get(pk=id)
     payment.delete()
     return redirect('/payment/list')
+
+# Get List of Total Rental payments by Contract + Total amount
+
+def rental_list(request, id):
+    contract_payments = Payment.objects.all().filter(contract__id=id).filter(payment_type__startswith="Loyer").filter(payment_source__startswith="Locataire")
+    total_amount = contract_payments.aggregate(sum=Sum('price'))['sum'] or 0.00
+    context = {'payment_list' :  contract_payments, 'total_amount': total_amount}
+    return render(request, 'payment_management/rental_list.html', context)
+
