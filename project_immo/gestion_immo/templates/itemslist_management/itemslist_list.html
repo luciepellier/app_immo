@@ -24,7 +24,7 @@
                 <td>{{itemslist.list_type}}</td>
                 <td>{{itemslist.comments}}</td>
                 <td>
-                    <a href="{% url 'itemslist_update' itemslist.id %}" class="btn text-secondary px-0">
+                    <a href="{% url 'itemslist_update' itemslist.id %}" class="btn text-secondary px-20">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
                     <form action="{% url 'itemslist_delete' itemslist.id %}" method="post" class="d-inline">

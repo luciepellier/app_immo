@@ -24,10 +24,10 @@
                 <td>{{contract.start_date}}</td>
                 <td>{{contract.end_date}}</td>
                 <td>
-                    <a href="{% url 'rental_list' contract.id %}" class="btn text-secondary px=0">
+                    <a href="{% url 'rental_list' contract.id %}" class="btn text-secondary px=20">
                         <i class="fa fa-eur fa-lg"></i>
                     </a>
-                    <a href="{% url 'contract_update' contract.id %}" class="btn text-secondary px=0 d-inline">
+                    <a href="{% url 'contract_update' contract.id %}" class="btn text-secondary">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
                     <form action="{% url 'contract_delete' contract.id %}" method="post" class="d-inline">

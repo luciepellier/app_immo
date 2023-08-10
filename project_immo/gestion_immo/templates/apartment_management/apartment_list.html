@@ -30,7 +30,7 @@
                 <td>{{apartment.charges_price}}</td>
                 <td>{{apartment.deposit_price}}</td>
                 <td>
-                    <a href="{% url 'apartment_update' apartment.id %}" class="btn text-secondary px-0">
+                    <a href="{% url 'apartment_update' apartment.id %}" class="btn text-secondary px-20">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
                     <form action="{% url 'apartment_delete' apartment.id %}" method="post" class="d-inline">

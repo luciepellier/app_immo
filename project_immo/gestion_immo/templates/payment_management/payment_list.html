@@ -26,7 +26,7 @@
                 <td>{{payment.payment_source}}</td>
                 <td>{{payment.price}}</td>
                 <td>
-                    <a href="{% url 'payment_update' payment.id %}" class="btn text-secondary px-0">
+                    <a href="{% url 'payment_update' payment.id %}" class="btn text-secondary px-20">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
                     <form action="{% url 'payment_delete' payment.id %}" method="post" class="d-inline">

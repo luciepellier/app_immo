@@ -22,7 +22,7 @@
                 <td>{{occupant.first_name}}</td>
                 <td>{{occupant.email}}</td>
                 <td>
-                    <a href="{% url 'occupant_update' occupant.id %}" class="btn text-secondary px-0">
+                    <a href="{% url 'occupant_update' occupant.id %}" class="btn text-secondary px-20">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
                     <form action="{% url 'occupant_delete' occupant.id %}" method="post" class="d-inline">
