@@ -37,12 +37,13 @@ class ContractForm(forms.ModelForm):
     end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     class Meta:
         model = Contract
-        fields = ('apartment','occupant','start_date', 'end_date')
+        fields = ('apartment','occupant','start_date', 'end_date', 'deposit')
         labels = {
             'apartment' : 'Appartement',
             'occupant' : 'Locataire',
             'start_date' : 'Date de début',
             'end_date' : 'Date de fin',
+            'deposit' : 'Dépôt de garantie',
         }      
 
     def __init__(self, *args, **kwargs):
@@ -70,13 +71,13 @@ class PaymentForm(forms.ModelForm):
     date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     class Meta:
         model = Payment
-        fields = ('contract','date','payment_type', 'payment_source', 'price')
+        fields = ('contract','date', 'source', 'rental', 'charges')
         labels = {
             'contract' : 'Contrat',
             'date' : 'Date',
-            'payment_type' : 'Type de paiement',
-            'payment_source' : 'Source',
-            'price' : 'Montant',
+            'source' : 'Source',
+            'rental' : 'Montant du Loyer',
+            'charges' : 'Montant des Charges',
         }      
 
     def __init__(self, *args, **kwargs):

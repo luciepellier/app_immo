@@ -193,8 +193,20 @@ def payment_delete(request,id):
 # Get List of Total Rental payments by Contract + Total amount
 
 def rental_list(request, id):
-    contract_payments = Payment.objects.all().filter(contract__id=id).filter(payment_type__startswith="Loyer").filter(payment_source__startswith="Locataire")
-    total_amount = contract_payments.aggregate(sum=Sum('price'))['sum'] or 0.00
+    contract_payments = Payment.objects.all().filter(contract__id=id)
+    total_amount = contract_payments.aggregate(sum=Sum('rental')+Sum('charges'))['sum'] or 0.00
     context = {'payment_list' :  contract_payments, 'total_amount': total_amount}
     return render(request, 'payment_management/rental_list.html', context)
 
+# Reviews if all payments in start/end range are satisfied
+#def rental_payments_validation(request, id=20, start_date="2023-01-01", end_date="2023-12-01"):
+#    
+#    rental_payments = Payment.objects.all().filter(contract__id=id).filter(payment_type__startswith="Loyer").filter(date__range=[start_date, end_date])
+#    benefit_payments = rental_payments.filter(payment_source="CAF")
+#
+#    # for month in range():
+#
+#    total_amount = rental_payments.aggregate(Sum('price'))
+#
+#    context = {'payment_list' :  rental_payments, 'total_amount': total_amount}
+#    return render(request, 'payment_management/rental_list.html', context)

@@ -9,6 +9,7 @@
         <td>Nom Locataire</td>
         <td>Date de début</td>
         <td>Date de fin</td>
+        <td>Dépôt de garantie</td>
         <td>
             <a href="{% url 'contract_insert' %}" class="btn btn-outline-success">
                 <i class="fas fa-plus"></i> Ajouter un contrat
@@ -23,6 +24,7 @@
                 <td>{{contract.occupant}}</td>
                 <td>{{contract.start_date}}</td>
                 <td>{{contract.end_date}}</td>
+                <td>{{contract.deposit}}</td>
                 <td>
                     <a href="{% url 'rental_list' contract.id %}" class="btn text-secondary px=20">
                         <i class="fa fa-eur fa-lg"></i>

@@ -4,21 +4,27 @@
 {% block content %}
 <form action="" method="post" autocomplete="off">
     {% csrf_token %}
-    {{form.contract|as_crispy_field}}
     <div class="row">
         <div class="col-md-4">
             {{form.date|as_crispy_field}}
         </div>
         <div class="col-md-8">
-            {{form.payment_type|as_crispy_field}}
+            {{form.contract|as_crispy_field}}
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            {{form.payment_source|as_crispy_field}}
+            {{form.source|as_crispy_field}}
         </div>
         <div class="col-md-8">
-            {{form.price|as_crispy_field}}
+            {{form.rental|as_crispy_field}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-8">
+            {{form.charges|as_crispy_field}}
         </div>
     </div>
     <div class="row">

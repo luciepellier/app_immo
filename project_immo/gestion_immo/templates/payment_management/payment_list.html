@@ -7,9 +7,9 @@
     <tr class="">
         <td>Contrat</td>
         <td>Date</td>
-        <td>Type</td>
         <td>Source</td>
-        <td>Montant</td>
+        <td>Loyer</td>
+        <td>Charges</td>
         <td>
             <a href="{% url 'payment_insert' %}" class="btn btn-outline-success">
                 <i class="fas fa-plus"></i> Ajouter un paiement
@@ -22,9 +22,9 @@
             <tr>
                 <td>{{payment.contract}}</td>
                 <td>{{payment.date}}</td>
-                <td>{{payment.payment_type}}</td>
-                <td>{{payment.payment_source}}</td>
-                <td>{{payment.price}}</td>
+                <td>{{payment.source}}</td>
+                <td>{{payment.rental}}</td>
+                <td>{{payment.charges}}</td>
                 <td>
                     <a href="{% url 'payment_update' payment.id %}" class="btn text-secondary px-20">
                         <i class="far fa-edit fa-lg"></i>

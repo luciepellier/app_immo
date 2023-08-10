@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from datetime import datetime
 
 # Create your models here.
 
@@ -26,30 +27,45 @@ class Occupant(models.Model):
 class Contract(models.Model):
     apartment = models.OneToOneField(Apartment, on_delete=models.CASCADE)
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
-    start_date = models.DateField(blank=False)
-    end_date = models.DateField(blank=True, null=True) 
+    start_date = models.DateField(default=datetime.now, blank=False)
+    end_date = models.DateField(blank=True, null=True)
+    deposit = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return f"{self.occupant.last_name} {self.occupant.first_name}  /  {self.apartment.address} {self.apartment.address_complement}, {self.apartment.postal_code} {self.apartment.city}"
 
 class ItemsList(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    date = models.DateField(blank=False)
+    date = models.DateField(default=datetime.now, blank=False)
     class ListType(models.TextChoices):
-        ENTRÉE = 'Entrée', _('D\'entrée')
-        SORTIE = 'Sortie', _('De sortie')
+        ENTRÉE = 'Entrée', _('Entrée')
+        SORTIE = 'Sortie', _('Sortie')
     list_type = models.CharField(max_length=6, choices=ListType.choices, default=ListType.ENTRÉE, null=False)
     comments = models.TextField()
 
 class Payment(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.SET_NULL, null=True)
-    date = models.DateField()
-    class PaymentType(models.TextChoices):
-        GARANTIE = 'Dépôt de garantie', _('Dépôt de garantie')
-        LOYER = 'Loyer (Charges incluses)', _('Loyer (Charges incluses)')
-    payment_type = models.CharField(max_length=25, choices=PaymentType.choices, default=PaymentType.LOYER, null=False)
+    date = models.DateField(default=datetime.now)
     class PaymentSource(models.TextChoices):
         LOCATAIRE = 'Locataire', _('Locataire')
         AUTRE = 'CAF', _('CAF')
-    payment_source = models.CharField(max_length=25, choices=PaymentSource.choices, default=PaymentSource.LOCATAIRE, null=False)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    source = models.CharField(max_length=25, choices=PaymentSource.choices, default='Locataire', null=False)
+    rental = models.DecimalField(max_digits=10, decimal_places=2)
+    charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+
+# class Payment with payment_type Dépôt de Garantie or Loyer as textchoices
+
+# class Payment(models.Model):
+#     contract = models.ForeignKey(Contract, on_delete=models.SET_NULL, null=True)
+#     date = models.DateField(default=datetime.now)
+#     class PaymentType(models.TextChoices):
+#         GARANTIE = 'Dépôt de garantie', _('Dépôt de garantie')
+#         LOYER = 'Loyer (Charges incluses)', _('Loyer')
+#     payment_type = models.CharField(max_length=25, choices=PaymentType.choices, default=PaymentType.LOYER, null=False)
+#     class PaymentSource(models.TextChoices):
+#         LOCATAIRE = 'Locataire', _('Locataire')
+#         AUTRE = 'CAF', _('CAF')
+#     payment_source = models.CharField(max_length=25, choices=PaymentSource.choices, default=PaymentSource.LOCATAIRE, null=False)
+#     amount = models.DecimalField(max_digits=10, decimal_places=2)
+#     charges = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00, blank=True)
+
