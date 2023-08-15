@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404 
 from django.db.models import Sum
-from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm
-from .models import Apartment, Occupant, Contract, ItemsList, Payment
+from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm
+from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt
+
+from datetime import datetime
 
 # Create your views here.
 
@@ -198,15 +200,87 @@ def rental_list(request, id):
     context = {'payment_list' :  contract_payments, 'total_amount': total_amount}
     return render(request, 'payment_management/rental_list.html', context)
 
-# Reviews if all payments in start/end range are satisfied
-#def rental_payments_validation(request, id=20, start_date="2023-01-01", end_date="2023-12-01"):
-#    
-#    rental_payments = Payment.objects.all().filter(contract__id=id).filter(payment_type__startswith="Loyer").filter(date__range=[start_date, end_date])
-#    benefit_payments = rental_payments.filter(payment_source="CAF")
-#
-#    # for month in range():
-#
-#    total_amount = rental_payments.aggregate(Sum('price'))
-#
-#    context = {'payment_list' :  rental_payments, 'total_amount': total_amount}
-#    return render(request, 'payment_management/rental_list.html', context)
+# Functions to create a form and get a Rental Receipt list for a Contract in a date range
+
+# define the set of months that exists between start date and end date inputs
+def months_between_dates(start_date, end_date):
+    months = set()
+    while start_date <= end_date:
+        months.add(
+            int(start_date.strftime('%m'))
+        )
+        if start_date.month == 12:
+            start_date = start_date.replace(year=start_date.year + 1, month=1)
+        else:
+            start_date = start_date.replace(month=start_date.month + 1)
+    
+    return months
+
+# define the receipt functions
+
+def receipt(request):
+
+    # print(request.POST)
+
+    contract_id = request.POST.get("contract")
+    contract = get_object_or_404(Contract, id=contract_id)
+    start_date = request.POST.get("start_date")
+    end_date = request.POST.get("end_date")
+
+    start_date_obj = datetime.strptime(start_date, "%d-%m-%Y")
+    end_date_obj = datetime.strptime(end_date, "%d-%m-%Y")
+
+    # print(start_date_obj)
+    # print(end_date_obj)
+
+    contract_payments = Payment.objects.filter(contract__id=contract_id, date__gte=start_date_obj, date__lte=end_date_obj)
+
+    # define the set of months in which payments were completed
+    months_in_which_payments_were_done = set()
+    for payment in contract_payments:
+        payment_date = payment.date
+        payment_month = payment_date.month
+        months_in_which_payments_were_done.add(payment_month)
+    
+    print(months_in_which_payments_were_done)
+
+
+    # define the set of months we generate the receipt for based on months between start and end date
+    months_we_generate_receipt_for = months_between_dates(start_date_obj, end_date_obj)
+    # print(months_we_generate_receipt_for)
+
+    # compare the two sets of months and determine if all payments are or not completed
+    is_payment_complete = False
+    if months_in_which_payments_were_done == months_we_generate_receipt_for:
+        is_payment_complete = True
+
+    context = {"contract_payments": contract_payments, "is_payment_complete": is_payment_complete, "contract": contract, "start_date": start_date, "end_date": end_date}
+    return render(request, 'receipt_management/receipt.html', context)
+
+# Functions to create the Receipt form
+
+def receipt_form(request, id=0):
+    # manage get request
+    if request.method == 'GET':
+        if id == 0:
+            form = ReceiptForm()
+        else:
+            #filter by id
+            receipt = Receipt.objects.get(pk=id)
+            # return the form object
+            form = ReceiptForm(instance = receipt)
+        return render(request, 'receipt_management/receipt_form.html', {'form':form})
+    # manage post request
+    else:
+        # if id is 0 a new receipt is created
+        if id == 0:
+            form = ReceiptForm(request.POST)
+        # otherwise the receipt info is updated
+        else:
+            receipt = Receipt.objects.get(pk=id)
+            form = ReceiptForm(request.POST, instance = receipt)
+        # if the validation is ok then save to db          
+        if form.is_valid():
+            form.save()
+        # redirect to the list to check
+        return redirect('/receipt/')

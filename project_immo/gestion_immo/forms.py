@@ -1,7 +1,6 @@
 from django import forms
-
 from project_immo import settings
-from .models import Apartment, Occupant, Contract, ItemsList, Payment
+from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt
 
 class ApartmentForm(forms.ModelForm):
     class Meta:
@@ -35,6 +34,7 @@ class OccupantForm(forms.ModelForm):
 class ContractForm(forms.ModelForm):
     start_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
+
     class Meta:
         model = Contract
         fields = ('apartment','occupant','start_date', 'end_date', 'deposit')
@@ -82,4 +82,20 @@ class PaymentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PaymentForm,self).__init__(*args, **kwargs)
+        self.fields['contract'].empty_label = 'Sélectionner un contrat'
+
+class ReceiptForm(forms.ModelForm):
+    start_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
+    end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS    
+    class Meta:
+        model = Receipt
+        fields = ('contract', 'start_date', 'end_date')
+        labels = {
+            'contract' : 'Contrat',
+            'start_date' : 'Date de début',
+            'end_date' : 'Date de fin',
+        }      
+
+    def __init__(self, *args, **kwargs):
+        super(ReceiptForm,self).__init__(*args, **kwargs)
         self.fields['contract'].empty_label = 'Sélectionner un contrat'

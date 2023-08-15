@@ -37,4 +37,7 @@ urlpatterns = [
     path('payment/delete/<int:id>/', views.payment_delete, name='payment_delete'),    
     path('payment/list/', views.payment_list, name='payment_list'),
     path('rental/<int:id>/', views.rental_list, name='rental_list'),
+    # rental receipt
+    path('receipt/form/', views.receipt_form, name='receipt_form'),
+    path('receipt/', views.receipt, name='receipt'),
 ]

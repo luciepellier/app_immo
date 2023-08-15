@@ -51,21 +51,15 @@ class Payment(models.Model):
         AUTRE = 'CAF', _('CAF')
     source = models.CharField(max_length=25, choices=PaymentSource.choices, default='Locataire', null=False)
     rental = models.DecimalField(max_digits=10, decimal_places=2)
-    charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0.00)
 
-# class Payment with payment_type Dépôt de Garantie or Loyer as textchoices
+    @property
+    def total(self):
+        return self.rental + self.charges
 
-# class Payment(models.Model):
-#     contract = models.ForeignKey(Contract, on_delete=models.SET_NULL, null=True)
-#     date = models.DateField(default=datetime.now)
-#     class PaymentType(models.TextChoices):
-#         GARANTIE = 'Dépôt de garantie', _('Dépôt de garantie')
-#         LOYER = 'Loyer (Charges incluses)', _('Loyer')
-#     payment_type = models.CharField(max_length=25, choices=PaymentType.choices, default=PaymentType.LOYER, null=False)
-#     class PaymentSource(models.TextChoices):
-#         LOCATAIRE = 'Locataire', _('Locataire')
-#         AUTRE = 'CAF', _('CAF')
-#     payment_source = models.CharField(max_length=25, choices=PaymentSource.choices, default=PaymentSource.LOCATAIRE, null=False)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2)
-#     charges = models.DecimalField(max_digits=10, decimal_places=2, default= 0.00, blank=True)
+class Receipt(models.Model):
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
+    start_date = models.DateField(blank=False)
+    end_date = models.DateField(blank=False)
+
 

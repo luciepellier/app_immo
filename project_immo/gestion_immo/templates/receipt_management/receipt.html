@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-10 offset-md-1 mt-5">
+            <div class="jumbotron">
+                <h1 class="display-4">Quittance de loyer</h1>
+                <hr class="my-4">
+
+                <div>Nom et Prénom du Locataire: {{ contract.occupant.first_name }} {{ contract.occupant.last_name }}</div>
+                <div>Adresse: {{ contract.apartment.address }} {{ contract.apartment.address_complement }}, {{ contract.apartment.postal_code }} {{ contract.apartment.city }}</div>
+                <div>Fait à XXX, {% now "DATE_FORMAT" %}</div>
+                <div>Nom de l'Agence : XXX</div>
+                <div>Période : {{ start_date }} - {{ end_date }}</div>
+
+                {% if is_payment_complete %}
+
+                <table class="table table-borderless">
+                    <thead class="border-bottom font-weight-bold">
+                        <tr class="">
+                            <td>Date de Paiement</td>
+                            <td>Montant Loyer</td>
+                            <td>Montant Charges</td> 
+                            <td>Total</td>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            {% for payment in contract_payments %}
+                                <tr>
+                                    <td>{{payment.date}}</td>
+                                    <td>{{payment.rental}}</td>
+                                    <td>{{payment.charges}}</td>
+                                    <td>{{payment.total}}</td>
+                                </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    
+                </table>
+
+                {% else %}
+
+                <div>Impossible de générer la quittance car tous les paiements ne sont pas en règle sur la période donnée.</div>
+                <div>Vous pouvez contacter le locataire pour régulariser la situation.</div>
+
+                {% endif %} 
+
+                </div>
+            </div>
+        </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+
+</html>
+
