@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'project_immo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ApartmentTest',
+        'NAME': 'Apartment1',
         'USER' : 'postgres',
         'PASSWORD' : 'postgres_23',
         'HOST' : 'localhost'

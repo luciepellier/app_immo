@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.db.models import Sum
-from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm
-from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt
+from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm, AgencyForm
+from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
 
 from datetime import datetime
 
@@ -80,6 +80,43 @@ def occupant_delete(request,id):
     occupant = Occupant.objects.get(pk=id)
     occupant.delete()
     return redirect('/occupant/list')
+
+# Functions to get a list and add, edit and remove an Agency
+
+def agency_list(request):
+    context = {'agency_list' : Agency.objects.all().order_by('-name')}
+    return render(request, 'agency_management/agency_list.html', context)
+
+def agency_form(request, id=0):
+    # manage get request
+    if request.method == 'GET':
+        if id == 0:
+            form = AgencyForm()
+        else:
+            #filter by id
+            agency = Agency.objects.get(pk=id)
+            # return the form object
+            form = AgencyForm(instance = agency)
+        return render(request, 'agency_management/agency_form.html', {'form':form})
+    # manage post request
+    else:
+        # if id is 0 a new payment is created
+        if id == 0:
+            form = AgencyForm(request.POST)
+        # otherwise the payment info is updated
+        else:
+            agency = Agency.objects.get(pk=id)
+            form = AgencyForm(request.POST, instance = agency) 
+        # if the validation is ok then save to db          
+        if form.is_valid():
+            form.save()
+        # redirect to the list to check
+        return redirect('/agency/list/')
+
+def agency_delete(request,id):
+    agency = Agency.objects.get(pk=id)
+    agency.delete()
+    return redirect('/agency/list')
 
 # Functions to get a list and add, edit and remove a Contract (linking an Apartment and a Occupant)
 

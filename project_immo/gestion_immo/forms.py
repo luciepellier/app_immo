@@ -1,6 +1,6 @@
 from django import forms
 from project_immo import settings
-from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt
+from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
 
 class ApartmentForm(forms.ModelForm):
     class Meta:
@@ -31,16 +31,28 @@ class OccupantForm(forms.ModelForm):
             'email' : 'E-mail',
         }      
 
+class AgencyForm(forms.ModelForm):
+
+    class Meta:
+        model = Agency
+        fields = ('name','city','commission')
+        labels = {
+            'name' : 'Nom',
+            'city' : 'Ville',
+            'commission' : 'Commission',
+        }      
+
 class ContractForm(forms.ModelForm):
     start_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
 
     class Meta:
         model = Contract
-        fields = ('apartment','occupant','start_date', 'end_date', 'deposit')
+        fields = ('apartment','occupant','agency','start_date', 'end_date', 'deposit')
         labels = {
             'apartment' : 'Appartement',
             'occupant' : 'Locataire',
+            'agency' : 'Agence',
             'start_date' : 'Date de début',
             'end_date' : 'Date de fin',
             'deposit' : 'Dépôt de garantie',
@@ -50,6 +62,7 @@ class ContractForm(forms.ModelForm):
         super(ContractForm,self).__init__(*args, **kwargs)
         self.fields['apartment'].empty_label = 'Sélectionner un appartement'
         self.fields['occupant'].empty_label = 'Sélectionner un locataire'
+        self.fields['agency'].empty_label = 'Sélectionner une agence'
 
 class ItemsListForm(forms.ModelForm):
     date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS

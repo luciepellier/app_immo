@@ -15,11 +15,11 @@
                 <h1 class="display-4">Quittance de loyer</h1>
                 <hr class="my-4">
 
-                <div>Nom et Prénom du Locataire: {{ contract.occupant.first_name }} {{ contract.occupant.last_name }}</div>
+                <div>Locataire: {{ contract.occupant.first_name }} {{ contract.occupant.last_name }}</div>
                 <div>Adresse: {{ contract.apartment.address }} {{ contract.apartment.address_complement }}, {{ contract.apartment.postal_code }} {{ contract.apartment.city }}</div>
-                <div>Fait à XXX, {% now "DATE_FORMAT" %}</div>
-                <div>Nom de l'Agence : XXX</div>
-                <div>Période : {{ start_date }} - {{ end_date }}</div>
+                <div>Fait à {{ contract.agency.city }}, le {% now "d-m-Y" %}</div>
+                <div>Par : {{ contract.agency.name }}</div>
+                <div>Période : du {{ start_date }} au {{ end_date }}</div>
 
                 {% if is_payment_complete %}
 
@@ -53,6 +53,9 @@
 
                 {% endif %} 
 
+                </div>
+                <div>
+                    Cette quittance annule tous les reçus qui auraient pu être établis précédemment en cas de paiement partiel du montant du présent terme. Elle est à conserver pendant trois ans par le locataire (loi n° 89-462 du 6 juillet 1989 : art. 7-1).
                 </div>
             </div>
         </div>

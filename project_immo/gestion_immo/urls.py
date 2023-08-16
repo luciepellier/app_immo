@@ -40,4 +40,9 @@ urlpatterns = [
     # rental receipt
     path('receipt/form/', views.receipt_form, name='receipt_form'),
     path('receipt/', views.receipt, name='receipt'),
+    # agency 
+    path('agency/', views.agency_form, name='agency_insert'),
+    path('agency/<int:id>/', views.agency_form, name='agency_update'),
+    path('agency/delete/<int:id>/', views.agency_delete, name='agency_delete'),    
+    path('agency/list/', views.agency_list, name='agency_list'),
 ]

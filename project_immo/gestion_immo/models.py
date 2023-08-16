@@ -23,10 +23,19 @@ class Occupant(models.Model):
 
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
+    
+class Agency(models.Model):
+    name = models.CharField(max_length=100)
+    city = models.CharField(max_length=50)
+    commission = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.name}, {self.city}"
 
 class Contract(models.Model):
     apartment = models.OneToOneField(Apartment, on_delete=models.CASCADE)
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True)
     start_date = models.DateField(default=datetime.now, blank=False)
     end_date = models.DateField(blank=True, null=True)
     deposit = models.BooleanField(default=False, blank=True)
