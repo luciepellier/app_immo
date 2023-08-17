@@ -1,5 +1,11 @@
+from io import BytesIO
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.db.models import Sum
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm, AgencyForm
 from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
 
@@ -238,10 +244,11 @@ def rental_list(request, id):
     return render(request, 'payment_management/rental_list.html', context)
 
 def commission_list(request, id):
-    contract_payments = Payment.objects.all().filter(contract__id=id)
-    total_amount = contract_payments.aggregate(sum=Sum('rental')+Sum('charges'))['sum'] or 0.00
+    contracts = Contract.objects.filter(agency__id=id)
+    all_contract_payments = Payment.objects.filter(contract__in=contracts).filter(source__contains="Locataire")
+    total_amount = all_contract_payments.aggregate(sum=Sum('rental')+Sum('charges'))['sum'] or 0.00
     total_commission = (total_amount * 8) / 100
-    context = {'payment_list' :  contract_payments, 'total_commission': total_commission}
+    context = {'payment_list' :  all_contract_payments, 'total_commission': total_commission}
     return render(request, 'payment_management/commission_list.html', context)
 
 # Functions to create a form and get a Rental Receipt list for a Contract in a date range
@@ -288,7 +295,6 @@ def receipt(request):
         months_in_which_payments_were_done.add(payment_month)
     
     print(months_in_which_payments_were_done)
-
 
     # define the set of months we generate the receipt for based on months between start and end date
     months_we_generate_receipt_for = months_between_dates(start_date_obj, end_date_obj)

@@ -34,7 +34,7 @@ class Agency(models.Model):
 class Contract(models.Model):
     apartment = models.OneToOneField(Apartment, on_delete=models.CASCADE)
     occupant = models.ForeignKey(Occupant, on_delete=models.CASCADE)
-    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True)
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True, related_name="contracts")
     start_date = models.DateField(default=datetime.now, blank=False)
     end_date = models.DateField(blank=True, null=True)
     deposit = models.BooleanField(default=False, blank=True)
