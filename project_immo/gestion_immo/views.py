@@ -305,7 +305,8 @@ def receipt(request):
     if months_in_which_payments_were_done == months_we_generate_receipt_for:
         is_payment_complete = True
 
-    context = {"contract_payments": contract_payments, "is_payment_complete": is_payment_complete, "contract": contract, "start_date": start_date, "end_date": end_date}
+    context = {"contract_payments": contract_payments, "is_payment_complete": is_payment_complete, "contract": contract, 
+               "start_date": start_date, "end_date": end_date}
     return render(request, 'receipt_management/receipt.html', context)
 
 # Functions to create the Receipt form
@@ -335,3 +336,43 @@ def receipt_form(request, id=0):
             form.save()
         # redirect to the list to check
         return redirect('/receipt/')
+    
+def render_pdf_view(request):
+    template_path = "/Users/luciepellier/Desktop/PYTHON_EXAM/app_immo/project_immo/gestion_immo/templates/receipt_management/receipt.html"
+    template = get_template(template_path)
+
+    contract_id = request.POST.get("contract")
+    contract = get_object_or_404(Contract, id=contract_id)
+    start_date = request.POST.get("start_date")
+    end_date = request.POST.get("end_date")
+    start_date_obj = datetime.strptime(start_date, "%d-%m-%Y")
+    end_date_obj = datetime.strptime(end_date, "%d-%m-%Y")
+
+    contract_payments = Payment.objects.filter(contract=contract, date__gte=start_date_obj, 
+                                               date__lte=end_date_obj).filter(source__contains="Locataire")
+    
+    months_in_which_payments_were_done = set()
+    for payment in contract_payments:
+        payment_date = payment.date
+        payment_month = payment_date.month
+        months_in_which_payments_were_done.add(payment_month)
+
+    months_we_generate_receipt_for = months_between_dates(start_date_obj, end_date_obj)
+
+    is_payment_complete = False
+    if months_in_which_payments_were_done == months_we_generate_receipt_for:
+        is_payment_complete = True
+
+        context = {'contract': contract, 'contract_payments': contract_payments, 'is_payment_complete': is_payment_complete, 
+                    'start_date': start_date, 'end_date': end_date}
+    
+        html = template.render(context)
+        result = BytesIO()
+        pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+        return HttpResponse(result.getvalue(), content_type="application/pdf")
+    else:
+        context = {"contract_payments": contract_payments, "is_payment_complete": is_payment_complete, "contract": contract, 
+               "start_date": start_date, "end_date": end_date}
+        return render(request, 'receipt_management/no-receipt.html', context)
+
+

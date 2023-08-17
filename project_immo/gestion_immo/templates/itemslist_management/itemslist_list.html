@@ -20,7 +20,7 @@
         {% for itemslist in itemslist_list %}
             <tr>
                 <td>{{itemslist.contract}}</td>
-                <td>{{itemslist.date}}</td>
+                <td>{{itemslist.date|date:'d-m-Y'}}</td>
                 <td>{{itemslist.list_type}}</td>
                 <td>{{itemslist.comments}}</td>
                 <td>

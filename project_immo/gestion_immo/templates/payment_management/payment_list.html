@@ -21,12 +21,12 @@
         {% for payment in payment_list %}
             <tr>
                 <td>{{payment.contract}}</td>
-                <td>{{payment.date}}</td>
+                <td>{{payment.date|date:'d-m-Y'}}</td>
                 <td>{{payment.source}}</td>
                 <td>{{payment.rental}}</td>
                 <td>{{payment.charges}}</td>
                 <td>
-                    <a href="{% url 'payment_update' payment.id %}" class="btn text-secondary px-20">
+                    <a href="{% url 'payment_update' payment.id %}" class="btn text-secondary px-10">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
                     <form action="{% url 'payment_delete' payment.id %}" method="post" class="d-inline">

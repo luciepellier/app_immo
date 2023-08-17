@@ -35,6 +35,7 @@ urlpatterns = [
     # routes for rental receipt
     path('receipt/form/', views.receipt_form, name='receipt_form'),
     path('receipt/', views.receipt, name='receipt'),
+    path('receipt/pdf/', views.render_pdf_view, name='render_pdf_view'),
     # routes for agency 
     path('agency/', views.agency_form, name='agency_insert'),
     path('agency/<int:id>/', views.agency_form, name='agency_update'),
