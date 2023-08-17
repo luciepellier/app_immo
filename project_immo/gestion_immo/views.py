@@ -277,7 +277,8 @@ def receipt(request):
     # print(start_date_obj)
     # print(end_date_obj)
 
-    contract_payments = Payment.objects.filter(contract__id=contract_id, date__gte=start_date_obj, date__lte=end_date_obj)
+    contract_payments = Payment.objects.filter(contract__id=contract_id, date__gte=start_date_obj, 
+                                               date__lte=end_date_obj).filter(source__contains="Locataire")
 
     # define the set of months in which payments were completed
     months_in_which_payments_were_done = set()
