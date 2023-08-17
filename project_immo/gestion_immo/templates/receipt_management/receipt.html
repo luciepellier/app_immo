@@ -9,53 +9,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="col-md-10 offset-md-1 mt-5">
             <div class="jumbotron">
                 <h1 class="display-4">Quittance de loyer</h1>
                 <hr class="my-4">
+                
+                <p class="text-uppercase">{{ contract.agency.name }}</p>
+                <p>{{ contract.agency.city }}</p>
 
-                <div>Locataire: {{ contract.occupant.first_name }} {{ contract.occupant.last_name }}</div>
-                <div>Adresse: {{ contract.apartment.address }} {{ contract.apartment.address_complement }}, {{ contract.apartment.postal_code }} {{ contract.apartment.city }}</div>
-                <div>Fait à {{ contract.agency.city }}, le {% now "d-m-Y" %}</div>
-                <div>Par : {{ contract.agency.name }}</div>
-                <div>Période : du {{ start_date }} au {{ end_date }}</div>
+                <p class="text-end text-uppercase">{{ contract.occupant.first_name }} {{ contract.occupant.last_name }}</p>
+                <p class="text-end">{{ contract.apartment.address }} {{ contract.apartment.address_complement }}, {{ contract.apartment.postal_code }} {{ contract.apartment.city }}</p>
+                <p class="text-end">À {{ contract.agency.city }}, le {% now "d-m-Y" %}</p>
+
+                <p class="text-uppercase mt-3">Période : du {{ start_date }} au {{ end_date }}</p>
 
                 {% if is_payment_complete %}
 
-                <table class="table table-borderless">
-                    <thead class="border-bottom font-weight-bold">
-                        <tr class="">
-                            <td>Date de Paiement</td>
-                            <td>Montant Loyer</td>
-                            <td>Montant Charges</td> 
-                            <td>Total</td>
-                        </tr>
-                    </thead>
-                        <tbody>
-                            {% for payment in contract_payments %}
-                                <tr>
-                                    <td>{{payment.date}}</td>
-                                    <td>{{payment.rental}}</td>
-                                    <td>{{payment.charges}}</td>
-                                    <td>{{payment.total}}</td>
-                                </tr>
-                            {% endfor %}
-                            
-                        </tbody>
-                    
-                </table>
-
+                <div class="my-5">
+                    <table class="table table-borderless">
+                        <thead class="border-bottom font-weight-bold">
+                            <tr class="">
+                                <td>Date de Paiement</td>
+                                <td>Montant Loyer</td>
+                                <td>Montant Charges</td> 
+                                <td>Total</td>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                {% for payment in contract_payments %}
+                                    <tr>
+                                        <td>{{payment.date}}</td>
+                                        <td>{{payment.rental}}</td>
+                                        <td>{{payment.charges}}</td>
+                                        <td>{{payment.total}}</td>
+                                    </tr>
+                                {% endfor %}
+                                
+                            </tbody>
+                        
+                    </table>
+                </div>
+                <p class="mt-5">
+                    Cette quittance annule tous les reçus qui auraient pu être établis précédemment en cas de paiement partiel du montant du présent terme. Elle est à conserver pendant trois ans par le locataire (loi n° 89-462 du 6 juillet 1989 : art. 7-1).
+                </p>
                 {% else %}
 
-                <div>Impossible de générer la quittance car tous les paiements ne sont pas en règle sur la période donnée.</div>
-                <div>Vous pouvez contacter le locataire pour régulariser la situation.</div>
+                <p class="mt-5">Impossible de générer la quittance car tous les paiements ne sont pas en règle sur la période donnée.</p>
+                <p>Vous pouvez contacter le locataire {{ contract.occupant.first_name }} {{ contract.occupant.last_name }} par e-mail à: <a href="mailto:{{ contract.occupant.email }}">{{ contract.occupant.email }}</a> pour régulariser la situation.</p>
 
                 {% endif %} 
 
-                </div>
-                <div>
-                    Cette quittance annule tous les reçus qui auraient pu être établis précédemment en cas de paiement partiel du montant du présent terme. Elle est à conserver pendant trois ans par le locataire (loi n° 89-462 du 6 juillet 1989 : art. 7-1).
                 </div>
             </div>
         </div>

@@ -10,21 +10,15 @@ urlpatterns = [
     path('apartment/delete/<int:id>/', views.apartment_delete, name='apartment_delete'),    
     # get request to get & display all the apartments in a list
     path('apartment/list/', views.apartment_list, name='apartment_list'),
-    # get and post requests to add an occupant
+    # routes for occupant
     path('occupant/', views.occupant_form, name='occupant_insert'),
-    # get and post requests to edit an occupant
     path('occupant/<int:id>/', views.occupant_form, name='occupant_update'),
-    # delete an occupant
     path('occupant/delete/<int:id>/', views.occupant_delete, name='occupant_delete'),    
-    # get request to get & display all the occupant in a list
     path('occupant/list/', views.occupant_list, name='occupant_list'),
-    # contracts paths
+    # routes for contracts 
     path('contract/', views.contract_form, name='contract_insert'),
-    # get and post requests to edit an occupant
     path('contract/<int:id>/', views.contract_form, name='contract_update'),
-    # delete an occupant
     path('contract/delete/<int:id>/', views.contract_delete, name='contract_delete'),    
-    # get request to get & display all the occupant in a list
     path('contract/list/', views.contract_list, name='contract_list'),    
     # routes for items list
     path('itemslist/', views.itemslist_form, name='itemslist_insert'),
@@ -37,10 +31,11 @@ urlpatterns = [
     path('payment/delete/<int:id>/', views.payment_delete, name='payment_delete'),    
     path('payment/list/', views.payment_list, name='payment_list'),
     path('rental/<int:id>/', views.rental_list, name='rental_list'),
-    # rental receipt
+    path('commission/<int:id>/', views.commission_list, name='commission_list'),
+    # routes for rental receipt
     path('receipt/form/', views.receipt_form, name='receipt_form'),
     path('receipt/', views.receipt, name='receipt'),
-    # agency 
+    # routes for agency 
     path('agency/', views.agency_form, name='agency_insert'),
     path('agency/<int:id>/', views.agency_form, name='agency_update'),
     path('agency/delete/<int:id>/', views.agency_delete, name='agency_delete'),    

@@ -35,11 +35,10 @@ class AgencyForm(forms.ModelForm):
 
     class Meta:
         model = Agency
-        fields = ('name','city','commission')
+        fields = ('name','city')
         labels = {
             'name' : 'Nom',
             'city' : 'Ville',
-            'commission' : 'Commission',
         }      
 
 class ContractForm(forms.ModelForm):

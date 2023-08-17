@@ -237,6 +237,13 @@ def rental_list(request, id):
     context = {'payment_list' :  contract_payments, 'total_amount': total_amount}
     return render(request, 'payment_management/rental_list.html', context)
 
+def commission_list(request, id):
+    contract_payments = Payment.objects.all().filter(contract__id=id)
+    total_amount = contract_payments.aggregate(sum=Sum('rental')+Sum('charges'))['sum'] or 0.00
+    total_commission = (total_amount * 8) / 100
+    context = {'payment_list' :  contract_payments, 'total_commission': total_commission}
+    return render(request, 'payment_management/commission_list.html', context)
+
 # Functions to create a form and get a Rental Receipt list for a Contract in a date range
 
 # define the set of months that exists between start date and end date inputs

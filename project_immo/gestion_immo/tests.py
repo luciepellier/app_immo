@@ -4,6 +4,7 @@ from .models import Apartment, Occupant, Contract, ItemsList, Payment
 
 # Create your tests here.
 
+# TDD Tests
 class ApartmentTest(TestCase):
     def test_add_apartment(self):
         # Test in TDD, we check there's no apartment created
@@ -108,3 +109,4 @@ class PaymentTest(TestCase):
         self.assertEqual(self.payment.payment_source, self.payment_source)
         self.assertEqual(self.payment.price, self.price)
 
+# Unit tests

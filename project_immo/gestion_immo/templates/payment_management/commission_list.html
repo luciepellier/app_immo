@@ -1,0 +1,34 @@
+{% extends 'apartment_management/base.html' %}
+
+{% block content %}
+
+<table class="table table-borderless">
+<thead class="border-bottom font-weight-bold">
+    <tr class="">
+        <td>Contrat</td>
+        <td>Date</td>
+        <td>Source</td>
+        <td>Loyer</td>
+        <td>Charges</td>
+    </tr>
+</thead>
+    <tbody>
+        {% for payment in payment_list %}
+            <tr>
+                <td>{{payment.contract}}</td>
+                <td>{{payment.date}}</td>
+                <td>{{payment.source}}</td>
+                <td>{{payment.rental}}</td>
+                <td>{{payment.charges}}</td>
+            </tr>
+        {% endfor  %}
+
+        <div class="text-center alert alert-primary" role="alert">TOTAL COMMISSION : {{ total_commission }} €</div>
+        <div> <a href="{% url 'agency_list' %}" class="btn btn-link">
+            <i class="fa fa-chevron-circle-left"></i> Retour à la liste
+        </a></div>
+    </tbody>
+
+</table>
+
+{% endblock content %}

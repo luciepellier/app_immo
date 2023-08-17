@@ -7,7 +7,6 @@
     <tr class="">
         <td>Nom</td>
         <td>Ville</td>
-        <td>Commission</td>
         <td>
             <a href="{% url 'agency_insert' %}" class="btn btn-outline-success">
                 <i class="fas fa-plus"></i> Ajouter une agence
@@ -20,8 +19,10 @@
             <tr>
                 <td>{{agency.name}}</td>
                 <td>{{agency.city}}</td>
-                <td>{{agency.commission}}</td>
                 <td>
+                    <a href="{% url 'commission_list' agency.id %}" class="btn text-secondary px=10">
+                        <i class="fa fa-eur fa-lg"></i>
+                    </a>
                     <a href="{% url 'agency_update' agency.id %}" class="btn text-secondary px-20">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
