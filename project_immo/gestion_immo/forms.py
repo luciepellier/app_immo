@@ -41,6 +41,9 @@ class AgencyForm(forms.ModelForm):
             'city' : 'Ville',
         }      
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+    
 class ContractForm(forms.ModelForm):
     start_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
     end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
@@ -97,15 +100,13 @@ class PaymentForm(forms.ModelForm):
         self.fields['contract'].empty_label = 'Sélectionner un contrat'
 
 class ReceiptForm(forms.ModelForm):
-    start_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
-    end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS    
+    start_date = forms.DateField(widget=DateInput(format = '%d-%m-%Y'), label='Date de début', input_formats=settings.DATE_INPUT_FORMATS)
+    end_date = forms.DateField(widget=DateInput(format = '%d-%m-%Y'), label='Date de fin', input_formats=settings.DATE_INPUT_FORMATS)
     class Meta:
         model = Receipt
         fields = ('contract', 'start_date', 'end_date')
         labels = {
             'contract' : 'Contrat',
-            'start_date' : 'Date de début',
-            'end_date' : 'Date de fin',
         }      
 
     def __init__(self, *args, **kwargs):

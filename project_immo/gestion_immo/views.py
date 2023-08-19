@@ -345,8 +345,8 @@ def render_pdf_view(request):
     contract = get_object_or_404(Contract, id=contract_id)
     start_date = request.POST.get("start_date")
     end_date = request.POST.get("end_date")
-    start_date_obj = datetime.strptime(start_date, "%d-%m-%Y")
-    end_date_obj = datetime.strptime(end_date, "%d-%m-%Y")
+    start_date_obj = datetime.strptime(start_date, "%Y-%m-%d")
+    end_date_obj = datetime.strptime(end_date, "%Y-%m-%d")
 
     contract_payments = Payment.objects.filter(contract=contract, date__gte=start_date_obj, 
                                                date__lte=end_date_obj).filter(source__contains="Locataire")
