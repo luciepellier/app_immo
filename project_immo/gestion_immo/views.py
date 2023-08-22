@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+import os
 
 from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm, AgencyForm
 from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
@@ -338,7 +339,13 @@ def receipt_form(request, id=0):
         return redirect('/receipt/')
     
 def render_pdf_view(request):
-    template_path = "/Users/luciepellier/Desktop/PYTHON_EXAM/app_immo/project_immo/gestion_immo/templates/receipt_management/receipt.html"
+    path1 = settings.BASE_DIR
+    path2 = "gestion_immo"
+    path3 = "templates"
+    path4 = "receipt_management"
+    filename = "receipt.html"
+
+    template_path = os.path.join(path1,path2,path3,path4,filename)
     template = get_template(template_path)
 
     contract_id = request.POST.get("contract")
