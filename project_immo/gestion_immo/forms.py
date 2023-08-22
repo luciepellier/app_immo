@@ -45,8 +45,8 @@ class DateInput(forms.DateInput):
     input_type = 'date'
     
 class ContractForm(forms.ModelForm):
-    start_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
-    end_date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
+    start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+    end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
 
     class Meta:
         model = Contract
@@ -59,6 +59,13 @@ class ContractForm(forms.ModelForm):
             'end_date' : 'Date de fin',
             'deposit' : 'Dépôt de garantie',
         }      
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data["start_date"]
+        end_date = cleaned_data["end_date"]
+        if (end_date <= start_date):
+            raise forms.ValidationError('La date de fin ne peut pas être antérieure à la date de début de contrat.')
 
     def __init__(self, *args, **kwargs):
         super(ContractForm,self).__init__(*args, **kwargs)
