@@ -1,0 +1,43 @@
+body {
+    font-weight: 200;
+    font-size: 14px;
+    font-family:'Arial', sans-serif;
+}
+.header {
+    font-size: 20px;
+    font-weight: 100;
+    text-align: center;
+    color: #000080;
+}
+.title {
+    font-size: 22px;
+    font-weight: 100;
+    padding: 10px 20px 0px 20px;  
+}
+.title span {
+    color: #000080;
+}
+.recipient {
+    text-align: right !important;
+}
+.emphasized {
+    font-style: italic;
+}
+.details {
+    padding: 10px 20px 0px 20px;
+    text-align: left;
+}
+.hrItem {
+    border: none;
+    height: 1px;
+    color: #333;
+    background-color: #fff; 
+}
+tr {
+    border-bottom: 1px solid #ddd;
+  }
+.footer {
+    margin-top:40px;
+    text-align: center;
+    font-size: 12px;
+}
