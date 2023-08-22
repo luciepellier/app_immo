@@ -45,8 +45,8 @@ class DateInput(forms.DateInput):
     input_type = 'date'
     
 class ContractForm(forms.ModelForm):
-    start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
-    end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+    start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de début')
+    end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de fin')
 
     class Meta:
         model = Contract
@@ -55,8 +55,6 @@ class ContractForm(forms.ModelForm):
             'apartment' : 'Appartement',
             'occupant' : 'Locataire',
             'agency' : 'Agence',
-            'start_date' : 'Date de début',
-            'end_date' : 'Date de fin',
             'deposit' : 'Dépôt de garantie',
         }      
     
@@ -74,13 +72,12 @@ class ContractForm(forms.ModelForm):
         self.fields['agency'].empty_label = 'Sélectionner une agence'
 
 class ItemsListForm(forms.ModelForm):
-    date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
+    date = forms.DateField(widget=DateInput(format = '%d-%m-%Y'), input_formats=settings.DATE_INPUT_FORMATS, label='Date')
     class Meta:
         model = ItemsList
         fields = ('contract','date','list_type', 'comments')
         labels = {
             'contract' : 'Contrat',
-            'date' : 'Date',
             'list_type' : 'Type d\'état des lieux',
             'comments' : 'Commentaires',
         }      
@@ -90,13 +87,12 @@ class ItemsListForm(forms.ModelForm):
         self.fields['contract'].empty_label = 'Sélectionner un contrat'
 
 class PaymentForm(forms.ModelForm):
-    date = forms.DateField.input_formats=settings.DATE_INPUT_FORMATS
+    date = forms.DateField(widget=DateInput(format = '%d-%m-%Y'), input_formats=settings.DATE_INPUT_FORMATS, label='Date')
     class Meta:
         model = Payment
         fields = ('contract','date', 'source', 'rental', 'charges')
         labels = {
             'contract' : 'Contrat',
-            'date' : 'Date',
             'source' : 'Source',
             'rental' : 'Montant du Loyer',
             'charges' : 'Montant des Charges',
