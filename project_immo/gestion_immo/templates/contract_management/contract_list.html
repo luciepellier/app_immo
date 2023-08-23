@@ -24,7 +24,7 @@
                 <td>{{contract.occupant}}</td>
                 <td>{{contract.start_date|date:'d-m-Y'}}</td>
                 <td>{{contract.end_date|date:'d-m-Y'}}</td>
-                <td>{{contract.deposit}}</td>
+                <td>{{contract.deposit|yesno:"Payé,Non Payé"}}</td>
                 <td>
                     <a href="{% url 'rental_list' contract.id %}" class="btn text-secondary px=10">
                         <i class="fa fa-eur fa-lg"></i>

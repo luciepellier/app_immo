@@ -45,8 +45,8 @@ class DateInput(forms.DateInput):
     input_type = 'date'
     
 class ContractForm(forms.ModelForm):
-    start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de début')
-    end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de fin')
+    start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de début', required=True)
+    end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de fin', required=False)
 
     class Meta:
         model = Contract
@@ -57,13 +57,25 @@ class ContractForm(forms.ModelForm):
             'agency' : 'Agence',
             'deposit' : 'Dépôt de garantie',
         }      
+        error_messages = {
+            'apartment': {
+                'unique': 'Un contrat existe déjà pour cet appartement. Veuillez choisir un autre appartement.',
+                'required': 'Ce champ est obligatoire.'
+            },
+        }
     
     def clean(self):
         cleaned_data = super().clean()
-        start_date = cleaned_data["start_date"]
-        end_date = cleaned_data["end_date"]
-        if (end_date <= start_date):
-            raise forms.ValidationError('La date de fin ne peut pas être antérieure à la date de début de contrat.')
+        start_date = cleaned_data['start_date']
+        end_date = cleaned_data.get('end_date')
+        
+        # apartment = cleaned_data.get('apartment')
+        # contract_already_exists = Contract.objects.filter(apartment=apartment).exists()
+        # if contract_already_exists:
+        #     raise forms.ValidationError('Un Contrat pour cet Appartement existe déjà')
+
+        if (end_date is not None and end_date <= start_date):
+            raise forms.ValidationError('La date de fin ne peut pas être antérieure à la date de début de contrat. Veuillez modifier les dates.')
 
     def __init__(self, *args, **kwargs):
         super(ContractForm,self).__init__(*args, **kwargs)

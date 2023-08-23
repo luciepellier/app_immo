@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %} 
 
 {% block content %}
-<form action="" method="post" autocomplete="off" novalidate>
+<form action="" method="post" autocomplete="off">
     {% csrf_token %}
     {{ form|as_crispy_errors }}
     {{form.apartment|as_crispy_field}}
