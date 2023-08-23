@@ -4,7 +4,13 @@
 |   |
 |   +--● migrations (includes files related to migrations)
 |   |  
+|   +--● static
+|   |  |--receipt.css
+|   |  
 |   +--● templates
+|   |  |--● agency_management
+|   |  |  |--agency_form.html
+|   |  |  |--agency_list.html
 |   |  |--● apartment_management
 |   |  |  |--base.html
 |   |  |  |--apartment_form.html
@@ -18,7 +24,22 @@
 |   |  |--● occupant_management
 |   |  |  |--occupant_form.html
 |   |  |  |--occupant_list.html
+|   |  |--● payment_management
+|   |  |  |--commission_list.html
+|   |  |  |--payment_form.html
+|   |  |  |--payment_list.html
+|   |  |  |--rental_list.html
+|   |  |--● receipt_management
+|   |  |  |--no-receipt.html
+|   |  |  |--receipt_form.html
+|   |  |  |--receipt_list.html
 |   | 
+|   +--● tests
+|   |  |--test_tdd.py
+|   |  |--test_unit.py
+|   | 
+|   |-- admin.py
+|   |-- apps.py
 |   |-- forms.py
 |   |-- models.py
 |   |-- urls.py
@@ -28,3 +49,6 @@
 |   |
 |   |--settings.py 
 |   |--urls.py
+|   |
++---● manage.py
++---● requirements.txt

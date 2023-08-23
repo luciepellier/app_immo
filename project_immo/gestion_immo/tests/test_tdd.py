@@ -1,6 +1,6 @@
 from datetime import date
 from django.test import TestCase
-from .models import Apartment, Occupant, Contract, ItemsList, Payment
+from ..models import Apartment, Occupant, Contract, ItemsList, Payment
 
 # Create your tests here.
 
@@ -108,5 +108,3 @@ class PaymentTest(TestCase):
         self.assertEqual(self.payment.payment_type, self.payment_type)
         self.assertEqual(self.payment.payment_source, self.payment_source)
         self.assertEqual(self.payment.price, self.price)
-
-# Unit tests
