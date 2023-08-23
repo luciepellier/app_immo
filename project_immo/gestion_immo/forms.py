@@ -59,7 +59,7 @@ class ContractForm(forms.ModelForm):
         }      
         error_messages = {
             'apartment': {
-                'unique': 'Un contrat existe déjà pour cet appartement. Veuillez choisir un autre appartement.',
+                'unique': 'Un contrat existe déjà pour cet appartement. Veuillez choisir ou entrer un autre appartement.',
                 'required': 'Ce champ est obligatoire.'
             },
         }
@@ -93,6 +93,15 @@ class ItemsListForm(forms.ModelForm):
             'list_type' : 'Type d\'état des lieux',
             'comments' : 'Commentaires',
         }      
+
+    def clean(self):
+        cleaned_data = super().clean()
+        contract = cleaned_data.get("contract")
+        list_type = cleaned_data.get("list_type")
+
+        itemslist_already_exists = ItemsList.objects.filter(contract=contract, list_type=list_type).exists()
+        if itemslist_already_exists:
+            raise forms.ValidationError(f'L\'état des lieux de type: "{list_type}" existe déjà pour ce contrat.')     
 
     def __init__(self, *args, **kwargs):
         super(ItemsListForm,self).__init__(*args, **kwargs)

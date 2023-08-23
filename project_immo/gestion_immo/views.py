@@ -194,6 +194,8 @@ def itemslist_form(request, id=0):
         # if the validation is ok then save to db          
         if form.is_valid():
             form.save()
+        else:
+            return render(request, 'itemslist_management/itemslist_form.html', {'form' : form})
         # redirect to the list to check
         return redirect('/itemslist/list')
 
