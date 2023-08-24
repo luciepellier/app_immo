@@ -5,3 +5,5 @@ Django==4.2.3
 psycopg2-binary==2.9.6
 xhtml2pdf==0.2.11
 pytest==7.1.3
+pytest-django==4.5.2
+gunicorn==20.1.0

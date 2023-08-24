@@ -94,10 +94,10 @@ class PaymentTest(TestCase):
         # create payment
         self.contract = Contract.objects.create(apartment=self.apartment, occupant=self.occupant, start_date=self.start_date, end_date=self.end_date)
         self.date = date.today()
-        self.payment_type = 'Rent'
-        self.payment_source = 'Occupant'
-        self.price = 1200.00
-        self.payment = Payment.objects.create(contract=self.contract, date=self.date, payment_type=self.payment_type, payment_source=self.payment_source, price=self.price)
+        # self.payment_type = 'Rent'
+        self.source = 'Locataire'
+        self.rental = 1200.00
+        self.payment = Payment.objects.create(contract=self.contract, date=self.date, source=self.source, rental=self.rental)
 
     def test_add_payment(self):
         # We check there's a payment created
@@ -105,6 +105,6 @@ class PaymentTest(TestCase):
         # We check the values are the same as the ones entered               
         self.assertEqual(self.payment.contract, self.contract)
         self.assertEqual(self.payment.date, self.date)
-        self.assertEqual(self.payment.payment_type, self.payment_type)
-        self.assertEqual(self.payment.payment_source, self.payment_source)
-        self.assertEqual(self.payment.price, self.price)
+        # self.assertEqual(self.payment.payment_type, self.payment_type)
+        self.assertEqual(self.payment.source, self.source)
+        self.assertEqual(self.payment.rental, self.rental)
