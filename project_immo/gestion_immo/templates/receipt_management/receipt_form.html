@@ -3,6 +3,12 @@
 
 {% block content %}
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb p-3 bg-light">
+      <li class="breadcrumb-item active" aria-current="page">Vous êtes sur : Générer une Quittance</li>
+    </ol>
+</nav>
+
 <form action="{% url 'render_pdf_view' %}" target="_blank" method="post" autocomplete="on">
     {% csrf_token %}
     {{form.contract|as_crispy_field}}
