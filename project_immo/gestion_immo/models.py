@@ -59,7 +59,7 @@ class Payment(models.Model):
         AUTRE = 'CAF', _('CAF')
     source = models.CharField(max_length=25, choices=PaymentSource.choices, default='Locataire', null=False)
     rental = models.DecimalField(max_digits=10, decimal_places=2,default=0.00)
-    charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0.00)
+    charges = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0.00)
 
     @property
     def total(self):

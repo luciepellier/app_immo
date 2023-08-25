@@ -62,9 +62,6 @@ class ContractForm(forms.ModelForm):
             'apartment': {
                 'unique': 'Un contrat existe déjà pour cet appartement. Veuillez choisir ou entrer un autre appartement.',
             },
-            'start_date': {
-                'invalid': 'Entrez une date valide au format JJ-MM-AAAA' 
-            }
         }
 
     def clean(self):
@@ -115,15 +112,15 @@ class ItemsListForm(forms.ModelForm):
 
 class PaymentForm(forms.ModelForm):
     date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date', help_text='JJ-MM-AAAA', required=True, initial=datetime.date.today)
+    rental = forms.DecimalField(min_value=100, decimal_places=2, initial=0, required=True, label='Montant du Loyer')
+    charges = forms.DecimalField(max_digits=4, decimal_places=2, initial=0, required=False, label='Montant des Charges')
     class Meta:
         model = Payment
         fields = ('contract','date', 'source', 'rental', 'charges')
         labels = {
             'contract' : 'Contrat',
             'source' : 'Source',
-            'rental' : 'Montant du Loyer',
-            'charges' : 'Montant des Charges',
-        }      
+        }
 
     def __init__(self, *args, **kwargs):
         super(PaymentForm,self).__init__(*args, **kwargs)
