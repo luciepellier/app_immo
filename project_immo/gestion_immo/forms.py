@@ -47,6 +47,7 @@ class DateInput(forms.DateInput):
 class ContractForm(forms.ModelForm):
     start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de début', required=True)
     end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de fin', required=False)
+    deposit = forms.BooleanField(label='Le dépôt de garantie a-t-il été versé ? (obligatoire)',required=True)
 
     class Meta:
         model = Contract
@@ -55,7 +56,6 @@ class ContractForm(forms.ModelForm):
             'apartment' : 'Appartement',
             'occupant' : 'Locataire',
             'agency' : 'Agence',
-            'deposit' : 'Dépôt de garantie',
         }      
         error_messages = {
             'apartment': {

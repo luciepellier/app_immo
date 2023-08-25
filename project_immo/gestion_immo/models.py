@@ -37,7 +37,7 @@ class Contract(models.Model):
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE, null=True, related_name="contracts")
     start_date = models.DateField(default=datetime.now, blank=False)
     end_date = models.DateField(blank=True, null=True)
-    deposit = models.BooleanField(default=False, blank=True)
+    deposit = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.occupant.last_name} {self.occupant.first_name}  /  {self.apartment.address} {self.apartment.address_complement}, {self.apartment.postal_code} {self.apartment.city}"
