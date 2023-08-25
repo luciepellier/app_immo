@@ -42,10 +42,9 @@ def test_not_save_contract_when_apartment_has_already_one():
 
         contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, agency=agency_1, 
                                 start_date=start_date, end_date=end_date)
-
-        assert Contract.objects.create(apartment=apartment_1, occupant=occupant_1, agency=agency_1, 
-                                start_date=start_date, end_date=end_date)
         
+        assert contract_1.save(), 'cannot create 2 contracts for the same apartment'
+
 
 # MODEL TEST - HAS TO FAIL : a contract with created with an end date similar or inferior than start date
 
