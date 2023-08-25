@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from project_immo import settings
 from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
@@ -45,8 +46,8 @@ class DateInput(forms.DateInput):
     input_type = 'date'
     
 class ContractForm(forms.ModelForm):
-    start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de début', required=True)
-    end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de fin', required=False)
+    start_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de début', help_text='JJ-MM-AAAA', required=True, initial=datetime.date.today)
+    end_date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date de fin', help_text='JJ-MM-AAAA', required=False)
     deposit = forms.BooleanField(label='Le dépôt de garantie a-t-il été versé ? (obligatoire)',required=True)
 
     class Meta:
@@ -60,22 +61,25 @@ class ContractForm(forms.ModelForm):
         error_messages = {
             'apartment': {
                 'unique': 'Un contrat existe déjà pour cet appartement. Veuillez choisir ou entrer un autre appartement.',
-                'required': 'Ce champ est obligatoire.'
             },
+            'start_date': {
+                'invalid': 'Entrez une date valide au format JJ-MM-AAAA' 
+            }
         }
-    
+
     def clean(self):
         cleaned_data = super().clean()
         start_date = cleaned_data['start_date']
         end_date = cleaned_data.get('end_date')
+        if (end_date is not None and end_date <= start_date):
+            self.add_error('end_date', 'La date de fin ne peut pas être égale ou antérieure à la date de début de contrat.')
+            raise forms.ValidationError('Veuillez modifier les dates du contrat.')
         
         # apartment = cleaned_data.get('apartment')
         # contract_already_exists = Contract.objects.filter(apartment=apartment).exists()
         # if contract_already_exists:
-        #     raise forms.ValidationError('Un Contrat pour cet Appartement existe déjà')
-
-        if (end_date is not None and end_date <= start_date):
-            raise forms.ValidationError('La date de fin ne peut pas être antérieure à la date de début de contrat. Veuillez modifier les dates.')
+        #     self.add_error('apartment', 'Un contrat existe déjà pour cet appartement.')
+        #     raise forms.ValidationError('Veuillez choisir ou entrer un autre appartement.')
 
     def __init__(self, *args, **kwargs):
         super(ContractForm,self).__init__(*args, **kwargs)
@@ -84,7 +88,8 @@ class ContractForm(forms.ModelForm):
         self.fields['agency'].empty_label = 'Sélectionner une agence'
 
 class ItemsListForm(forms.ModelForm):
-    date = forms.DateField(widget=DateInput(format = '%d-%m-%Y'), input_formats=settings.DATE_INPUT_FORMATS, label='Date')
+    date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date', help_text='JJ-MM-AAAA', required=True, initial=datetime.date.today)
+    
     class Meta:
         model = ItemsList
         fields = ('contract','date','list_type', 'comments')
@@ -101,14 +106,15 @@ class ItemsListForm(forms.ModelForm):
 
         itemslist_already_exists = ItemsList.objects.filter(contract=contract, list_type=list_type).exists()
         if itemslist_already_exists:
-            raise forms.ValidationError(f'L\'état des lieux de type: "{list_type}" existe déjà pour ce contrat.')     
+            self.add_error('list_type', (f'L\'état des lieux de type: "{list_type}" existe déjà pour ce contrat.'))
+            raise forms.ValidationError('Veuillez modifier le contrat ou type d\'état des lieux.')     
 
     def __init__(self, *args, **kwargs):
         super(ItemsListForm,self).__init__(*args, **kwargs)
         self.fields['contract'].empty_label = 'Sélectionner un contrat'
 
 class PaymentForm(forms.ModelForm):
-    date = forms.DateField(widget=DateInput(format = '%d-%m-%Y'), input_formats=settings.DATE_INPUT_FORMATS, label='Date')
+    date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date', help_text='JJ-MM-AAAA', required=True, initial=datetime.date.today)
     class Meta:
         model = Payment
         fields = ('contract','date', 'source', 'rental', 'charges')
