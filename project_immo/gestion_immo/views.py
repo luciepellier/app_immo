@@ -244,7 +244,7 @@ def payment_delete(request,id):
 # Get List of Total Rental payments by Contract + Total amount
 
 def rental_list(request, id):
-    contract_payments = Payment.objects.all().filter(contract__id=id)
+    contract_payments = Payment.objects.all().filter(contract__id=id).filter(source__contains="Locataire")
     total_amount = contract_payments.aggregate(sum=Sum('rental')+Sum('charges'))['sum'] or 0.00
     context = {'payment_list' :  contract_payments, 'total_amount': total_amount}
     return render(request, 'payment_management/rental_list.html', context)
