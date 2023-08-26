@@ -13,15 +13,10 @@ def test_one_occupant_has_two_contract_apartments():
         apartment_2 = Apartment.objects.create(address='25 rue de la République', address_complement='2-3', city='Lyon', 
                                 postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
         occupant_1 = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
-        agency_1 = Agency.objects.create(name='Agence 1', city='Rosas')
         start_date = date.today()
-        contract_duration = start_date.year + 3
-        end_date = start_date.replace(contract_duration)
         
-        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, agency=agency_1, 
-                                start_date=start_date, end_date=end_date)
-        contract_2 = Contract.objects.create(apartment=apartment_2, occupant=occupant_1, agency=agency_1, 
-                                start_date=start_date, end_date=end_date)
+        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, start_date=start_date)
+        contract_2 = Contract.objects.create(apartment=apartment_2, occupant=occupant_1, start_date=start_date)
 
         assert contract_1.occupant.first_name == contract_2.occupant.first_name, 'the 2 contracts have not the same occupant first name'
         assert contract_1.occupant.last_name == contract_2.occupant.last_name, 'the 2 contracts have not the same occupant first name'
@@ -35,13 +30,9 @@ def test_not_save_contract_when_apartment_has_already_one():
         apartment_1 = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', 
                                 postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
         occupant_1 = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
-        agency_1 = Agency.objects.create(name='Agence 1', city='Rosas')
         start_date = date.today()
-        contract_duration = start_date.year + 3
-        end_date = start_date.replace(contract_duration)
 
-        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, agency=agency_1, 
-                                start_date=start_date, end_date=end_date)
+        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, start_date=start_date)
         
         assert contract_1.save(), 'cannot create 2 contracts for the same apartment'
 
@@ -53,13 +44,11 @@ def test_not_save_contract_when_invalid_end_date():
         apartment_1 = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', 
                                 postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
         occupant_1 = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
-        agency_1 = Agency.objects.create(name='Agence 1', city='Rosas')
         start_date = date.today()
         contract_duration = start_date.year - 3
         end_date = start_date.replace(contract_duration)
         
-        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, agency=agency_1, 
-                                start_date=start_date, end_date=end_date) 
+        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, start_date=start_date, end_date=end_date) 
 
         assert contract_1.end_date >= contract_1.start_date, 'contract end date cannot be inferior or equal to start date'
 
@@ -70,13 +59,9 @@ def test_not_save_contract_when_deposit_payment_not_done():
         apartment_1 = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', 
                                 postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
         occupant_1 = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
-        agency_1 = Agency.objects.create(name='Agence 1', city='Rosas')
         start_date = date.today()
-        contract_duration = start_date.year + 1
-        end_date = start_date.replace(contract_duration)
 
-        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, agency=agency_1, 
-                                start_date=start_date, end_date=end_date)
+        contract_1 = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, start_date=start_date)
         
         assert contract_1.deposit == False, 'deposit payment is required as True to save the contract'
 
