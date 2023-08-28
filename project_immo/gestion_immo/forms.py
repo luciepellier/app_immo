@@ -66,8 +66,12 @@ class ContractForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        start_date = cleaned_data['start_date']
+        start_date = cleaned_data.get('start_date')
         end_date = cleaned_data.get('end_date')
+
+        #if start_date is None:
+        #    raise forms.ValidationError("start_date is not supplied with form.. maybe you put on a wrong date format??")
+
         if (end_date is not None and end_date <= start_date):
             self.add_error('end_date', 'La date de fin ne peut pas être égale ou antérieure à la date de début de contrat.')
             raise forms.ValidationError('Veuillez modifier les dates du contrat.')
@@ -100,13 +104,15 @@ class ItemsListForm(forms.ModelForm):
         cleaned_data = super().clean()
         contract = cleaned_data.get("contract")
         list_type = cleaned_data.get("list_type")
-
-        itemslist_already_exists = ItemsList.objects.filter(contract=contract, list_type=list_type).exists()
+        itemslist_already_exists = ItemsList.objects.filter(contract=contract, list_type=list_type).exclude(pk=self.itemslist_pk).exists()
         if itemslist_already_exists:
             self.add_error('list_type', (f'L\'état des lieux de type: "{list_type}" existe déjà pour ce contrat.'))
             raise forms.ValidationError('Veuillez modifier le contrat ou type d\'état des lieux.')     
 
     def __init__(self, *args, **kwargs):
+        self.itemslist_pk = None
+        if "itemslist_pk" in kwargs:
+            self.itemslist_pk = kwargs.pop("itemslist_pk")
         super(ItemsListForm,self).__init__(*args, **kwargs)
         self.fields['contract'].empty_label = 'Sélectionner un contrat'
 

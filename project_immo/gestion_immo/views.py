@@ -190,7 +190,7 @@ def itemslist_form(request, id=0):
         # otherwise the itemlist info is updated
         else:
             itemslist = ItemsList.objects.get(pk=id)
-            form = ItemsListForm(request.POST, instance = itemslist) 
+            form = ItemsListForm(request.POST, instance = itemslist, itemslist_pk=id) 
         # if the validation is ok then save to db          
         if form.is_valid():
             form.save()
