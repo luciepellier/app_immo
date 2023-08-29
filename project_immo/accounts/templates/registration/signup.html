@@ -1,0 +1,17 @@
+{% extends 'apartment_management/base.html' %}
+
+{% block title %}S'enregistrer{% endblock %}
+
+{% block content %}
+
+<h2>Créer un compte</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit">Enregistrer</button>
+
+</form>
+
+{% endblock %}

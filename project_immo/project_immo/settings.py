@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -109,6 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# django_project/settings.py
+
+LOGIN_REDIRECT_URL = "/contract/list/"
+LOGOUT_REDIRECT_URL = "/contract/list/"
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

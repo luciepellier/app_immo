@@ -41,6 +41,15 @@
                     </li>
                 </ul>
             </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-link text-end">
+                    {% if user.is_authenticated %}
+                    <i class="fa-solid fa-user"></i> {{ user.username }} - <a href="{% url 'logout' %}">Se déconnecter</a>
+                    {% else %}
+                    <a href="{% url 'login' %}"> Connexion</a>
+                    {% endif %}
+                </li>
+            </ul>
         </nav>
     </div>
     <div class="container pt-5">
