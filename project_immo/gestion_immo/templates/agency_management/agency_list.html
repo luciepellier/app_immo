@@ -13,11 +13,7 @@
     <tr class="">
         <td>Nom</td>
         <td>Ville</td>
-        <td>
-            <a href="{% url 'agency_insert' %}" class="btn btn-outline-success">
-                <i class="fas fa-plus"></i> Ajouter une agence
-            </a>
-        </td>
+        <td>Nom d'utilisateur</td>
     </tr>
 </thead>
     <tbody>
@@ -25,6 +21,7 @@
             <tr>
                 <td>{{agency.name}}</td>
                 <td>{{agency.city}}</td>
+                <td>{{agency.username}}</td>
                 <td>
                     <a href="{% url 'commission_list' agency.id %}" class="btn text-secondary px=10">
                         <i class="fa fa-percent fa-lg"></i>

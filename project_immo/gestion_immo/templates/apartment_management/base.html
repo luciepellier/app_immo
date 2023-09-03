@@ -19,9 +19,6 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'agency_list' %}">Agences</a>
-                    </li>
-                    <li class="nav-item">
                     <a class="nav-link" href="{% url 'apartment_list' %}">Appartements <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
@@ -44,7 +41,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="nav-link text-end">
                     {% if user.is_authenticated %}
-                    <i class="fa-solid fa-user"></i> {{ user.username }} - <a href="{% url 'logout' %}">Se déconnecter</a>
+                    <a href="{% url 'agency_list' %}" class="btn text-secondary px=10"> <i class="fa fa-list-ul" aria-hidden="true"></i>
+                        Liste d'Agences </a>  
+                    <i class="fa-solid fa-user"></i> {{ user.username }} - 
+                    <a href="{% url 'logout' %}">Se déconnecter</a>
                     {% else %}
                     <a href="{% url 'login' %}"> Connexion</a>
                     {% endif %}

@@ -91,7 +91,7 @@ def occupant_delete(request,id):
 # Functions to get a list and add, edit and remove an Agency
 
 def agency_list(request):
-    context = {'agency_list' : Agency.objects.all().order_by('-name')}
+    context = {'agency_list' : Agency.objects.all().order_by('-first_name')}
     return render(request, 'agency_management/agency_list.html', context)
 
 def agency_form(request, id=0):

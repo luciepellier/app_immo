@@ -70,7 +70,7 @@ def test_commission_list_view(client):
         apartment_1 = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', 
                                 postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
         occupant_1 = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
-        agency_1 = Agency.objects.create(id=123, name='ImmoTest', city='Figueras')
+        agency_1 = Agency.objects.create(id=123, first_name='ImmoTest', city='Figueras')
         start_date = date.today()
         contract = Contract.objects.create(apartment=apartment_1, occupant=occupant_1, start_date=start_date)
         # payment_1 = Payment.objects.create(date=date.today(), contract=contract, source='Locataire', rental=1200.00, charges=0)
@@ -88,7 +88,7 @@ def test_rental_payment_superior_than_zero():
         apartment_1 = Apartment.objects.create(address='15 rue de la République', address_complement='3-2', city='Lyon', 
                                 postal_code='69005', rental_price=1200.00, charges_price=400.00, deposit_price=2400.00)
         occupant_1 = Occupant.objects.create(first_name='Pedro', last_name='Gonzalez', email='pedrucho@test.com')
-        agency_1 = Agency.objects.create(name='Agence 1', city='Rosas')
+        agency_1 = Agency.objects.create(first_name='Agence 1', city='Rosas')
         start_date = date.today()
         contract_duration = start_date.year + 3
         end_date = start_date.replace(contract_duration)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
+from accounts.models import Agency
 
 # Create your models here.
 
@@ -23,13 +24,6 @@ class Occupant(models.Model):
 
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
-    
-class Agency(models.Model):
-    name = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.name}, {self.city}"
 
 class Contract(models.Model):
     apartment = models.OneToOneField(Apartment, on_delete=models.CASCADE)

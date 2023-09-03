@@ -8,10 +8,5 @@ from django.views import generic
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
-
-# class PasswordResetView(generic.CreateView):
-#     form_class = PasswordResetForm
-#     success_url = reverse_lazy("login")
-#     template_name = "registration/password_reset_form.html"
+    success_url = reverse_lazy("agency_list")
+    template_name = "agency_management/agency_form.html"

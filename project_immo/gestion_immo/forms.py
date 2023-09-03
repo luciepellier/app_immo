@@ -1,7 +1,9 @@
 import datetime
 from django import forms
 from project_immo import settings
-from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
+from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt
+from accounts.models import Agency
+
 
 class ApartmentForm(forms.ModelForm):
     class Meta:
@@ -33,14 +35,22 @@ class OccupantForm(forms.ModelForm):
         }      
 
 class AgencyForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = Agency
-        fields = ('name','city')
+        fields = ('first_name', 'last_name', 'city', 'username', 'password')
         labels = {
             'name' : 'Nom',
             'city' : 'Ville',
-        }      
+        }
+
+    def save(self, commit: bool = ...):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user   
 
 class DateInput(forms.DateInput):
     input_type = 'date'
