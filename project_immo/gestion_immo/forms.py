@@ -3,7 +3,7 @@ from django import forms
 from project_immo import settings
 from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt
 from accounts.models import Agency
-
+from django.contrib.auth.forms import UserCreationForm
 
 class ApartmentForm(forms.ModelForm):
     class Meta:
@@ -34,20 +34,38 @@ class OccupantForm(forms.ModelForm):
             'email' : 'E-mail',
         }      
 
-class AgencyForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+class AgencyForm(UserCreationForm):
+    password1 = forms.CharField(widget=forms.PasswordInput, label='Mot de passe', help_text = ('Votre mot de passe ne peut pas être similaire à vos informations personnelles, un mot de passe couramment utilisé ou entièrement numérique. Il doit contenir au moins 9 caractères.'))
+    password2 = forms.CharField(widget=forms.PasswordInput, label='Confirmation de mot de passe', help_text = ('Entrez le même mot de passe que précédemment, pour vérification.'))
+    username = forms.CharField(label ='Nom d\'utilisateur', 
+                               help_text = ('Requis. 150 caractères ou moins. Lettres, chiffres et @/./+/-/_ uniquement.'), 
+                               error_messages =
+                                    {'unique': 'Ce nom d\'utilisateur existe déjà. Merci d\'en saisir un autre.',
+                                     'invalid': 'Entrez un nom d\'utilisateur valide. Cette valeur ne peut contenir que des lettres, des chiffres et des caractères @/./+/-/_.'
+                                    },
+    )
 
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = Agency
-        fields = ('first_name', 'last_name', 'city', 'username', 'password')
+        fields = UserCreationForm.Meta.fields + ('username', 'first_name', 'last_name', 'city', 'password1', 'password2')
         labels = {
-            'name' : 'Nom',
+            'first_name' : 'Prénom',
+            'last_name' : 'Nom',
             'city' : 'Ville',
+            'name' : 'Nom',
         }
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            self.add_error('password1', 'Les mots de passe ne sont pas identiques.')
+            raise forms.ValidationError('Les mots de passe ne sont pas identiques.')
+        return password2
 
     def save(self, commit: bool = ...):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
+        user.set_password(self.cleaned_data['password1'])
         if commit:
             user.save()
         return user   

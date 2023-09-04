@@ -21,22 +21,18 @@
         <div class="col-md-4">
             {{form.username|as_crispy_field}}
         </div>
-        <div class="col-md-4">
-            {{form.password|as_crispy_field}}
+        <div>
+            {{form.city|as_crispy_field}}
         </div>
         <div class="col-md-8">
-            {{form.city|as_crispy_field}}
+            {{form.password1|as_crispy_field}}
+        </div>
+        <div class="col-md-4">
+            {{form.password2|as_crispy_field}}
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8 d-grid gap-2">
             <button type="submit" class="btn btn-success btn-lg"><i class="fa-solid fa-floppy-disk"></i> </i>Enregistrer</button>
-        </div>
-        <div class="col-md-4 d-grid gap-2">
-            <a href="{% url 'agency_list' %}" class="btn btn-secondary btn-lg">
-                <i class="fas fa-list"></i> Retour à la liste
-            </a>
-        </div>
     </div>
 </form>
 {% endblock content %}

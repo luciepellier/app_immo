@@ -120,8 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # django_project/settings.py
 
-LOGIN_REDIRECT_URL = "/contract/list/"
-LOGOUT_REDIRECT_URL = "/contract/list/"
+LOGIN_REDIRECT_URL = "contract_list"
+LOGOUT_REDIRECT_URL = "login"
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
@@ -155,3 +155,25 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.Agency'
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'accounts.validators.UserAttributeSimilarityValidator',
+        #"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {   
+        'NAME': 'accounts.validators.MinimumLengthValidator',
+        #"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 9,
+        },
+    },
+    {
+        #'NAME': 'accounts.validators.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        'NAME': 'accounts.validators.NumericPasswordValidator',
+        #"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]

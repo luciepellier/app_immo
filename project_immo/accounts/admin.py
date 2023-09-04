@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Agency
 
-# Register your models here.cd code
+# Register your models here.
 
 admin.site.register(Agency)

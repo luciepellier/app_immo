@@ -117,8 +117,9 @@ def agency_form(request, id=0):
         # if the validation is ok then save to db          
         if form.is_valid():
             form.save()
-        # redirect to the list to check
-        return redirect('/agency/list/')
+        else:
+            return render(request, 'agency_management/agency_form.html', {'form' : form})
+        return redirect('login')
 
 def agency_delete(request,id):
     agency = Agency.objects.get(pk=id)
