@@ -96,10 +96,6 @@ DATABASES = {
     }
 }
 
-# if 'DATABASE_URL' in os.environ: #means heroku
-#    import dj_database_url
-#    DATABASES = {'default': dj_database_url.config()} 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -177,3 +173,7 @@ AUTH_PASSWORD_VALIDATORS = [
         #"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+if 'DATABASE_URL' in os.environ: 
+   import dj_database_url
+   DATABASES = {'default': dj_database_url.config()} 
