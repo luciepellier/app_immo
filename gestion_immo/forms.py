@@ -146,8 +146,8 @@ class ItemsListForm(forms.ModelForm):
 
 class PaymentForm(forms.ModelForm):
     date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS, label='Date', help_text='JJ-MM-AAAA', required=True, initial=datetime.date.today)
-    rental = forms.DecimalField(min_value=100, decimal_places=2, initial=0, required=True, label='Montant du Loyer')
-    charges = forms.DecimalField(max_digits=4, decimal_places=2, initial=0, required=False, label='Montant des Charges')
+    rental = forms.DecimalField(min_value=100, initial=0, required=True, label='Montant du Loyer')
+    charges = forms.DecimalField(initial=0, required=False, label='Montant des Charges')
     class Meta:
         model = Payment
         fields = ('contract','date', 'source', 'rental', 'charges')
