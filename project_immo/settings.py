@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'https://infeco-gestion-immo-f949f713e3ee.herokuapp.com/'
+    'myimmoproject-d430252df3db.herokuapp.com'
 ]
 
 # Application definition
