@@ -32,7 +32,14 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4 d-grid gap-2">
             <button type="submit" class="btn btn-success btn-lg"><i class="fa-solid fa-floppy-disk"></i> </i>Enregistrer</button>
+        </div>
+        <div class="col-md-4 d-grid gap-2">
+        <a href="{% url 'agency_list' %}" class="btn btn-secondary btn-lg">
+            <i class="fas fa-list"></i> Retour sans modification
+        </a>
+        </div>
     </div>
 </form>
 {% endblock content %}
