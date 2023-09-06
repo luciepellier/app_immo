@@ -26,15 +26,6 @@
                     <a href="{% url 'commission_list' agency.id %}" class="btn text-secondary px=10">
                         <i class="fa fa-percent fa-lg"></i>
                     </a>
-                    <a href="{% url 'agency_update' agency.id %}" class="btn text-secondary px-20">
-                        <i class="far fa-edit fa-lg"></i>
-                    </a>
-                    <form action="{% url 'agency_delete' agency.id %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn">
-                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
-                        </button> 
-                    </form>
                 </td>
             </tr>
         {% endfor  %}
