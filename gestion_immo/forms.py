@@ -43,11 +43,15 @@ class AgencyForm(UserCreationForm):
                                     {'unique': 'Ce nom d\'utilisateur existe déjà. Merci d\'en saisir un autre.',
                                      'invalid': 'Entrez un nom d\'utilisateur valide. Cette valeur ne peut contenir que des lettres, des chiffres et des caractères @/./+/-/_.'
                                     },
-    )
+                                )
+    email = forms.EmailField(required = True, error_messages =
+                                    {
+                                     'invalid': 'Entrez une adresse e-mail valide.'
+                                    },)
 
     class Meta(UserCreationForm.Meta):
         model = Agency
-        fields = UserCreationForm.Meta.fields + ('username', 'first_name', 'last_name', 'city', 'password1', 'password2')
+        fields = UserCreationForm.Meta.fields + ('username', 'first_name', 'last_name', 'email', 'city', 'password1', 'password2')
         labels = {
             'first_name' : 'Prénom',
             'last_name' : 'Nom',

@@ -91,7 +91,7 @@ def occupant_delete(request,id):
 # Functions to get a list and add, edit and remove an Agency
 
 def agency_list(request):
-    context = {'agency_list' : Agency.objects.all().order_by('-first_name')}
+    context = {'agency_list' : Agency.objects.all().order_by('city')}
     return render(request, 'agency_management/agency_list.html', context)
 
 def agency_form(request, id=0):
@@ -107,10 +107,9 @@ def agency_form(request, id=0):
         return render(request, 'agency_management/agency_form.html', {'form':form})
     # manage post request
     else:
-        # if id is 0 a new payment is created
         if id == 0:
             form = AgencyForm(request.POST)
-        # otherwise the payment info is updated
+        # otherwise the info is updated
         else:
             agency = Agency.objects.get(pk=id)
             form = AgencyForm(request.POST, instance = agency) 
