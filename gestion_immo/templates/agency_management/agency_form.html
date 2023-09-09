@@ -3,6 +3,8 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb p-3 bg-light">
       <li class="breadcrumb-item active" aria-current="page">Vous êtes sur : Ajouter / Modifier une Agence</li>
@@ -42,4 +44,9 @@
         </div>
     </div>
 </form>
+
+{% else %}
+    <p>Bonjour, nouvel utilisateur. Pour accéder à cet espace, merci de <a href="{% url 'login' %}">vous connecter</a></p>
+{% endif %}
+
 {% endblock content %}

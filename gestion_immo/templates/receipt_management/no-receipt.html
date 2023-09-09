@@ -2,6 +2,9 @@
 {% load crispy_forms_tags %} 
 
 {% block content %}
+
+{% if user.is_authenticated %}
+
 <div class="mb-5"> <a href="{% url 'receipt_form' %}" class="btn btn-link">
     <i class="fa fa-chevron-circle-left"></i> Retour vers quittance
     </a>
@@ -11,5 +14,9 @@
     <p>Impossible de générer la quittance en format PDF car tous les paiements ne sont pas en règle sur la période donnée.</p>
     <p>Vous pouvez contacter le locataire {{ contract.occupant.first_name }} {{ contract.occupant.last_name }} par e-mail à: <a href="mailto:{{ contract.occupant.email }}">{{ contract.occupant.email }}</a> pour régulariser la situation du contrat de l'appartement : {{ contract.apartment.address }} {{ contract.apartment.address_complement }}, {{ contract.apartment.postal_code }} {{ contract.apartment.city }}.</p>
 </div>
+
+{% else %}
+    <p>Bonjour, nouvel utilisateur. Pour accéder à cet espace, merci de <a href="{% url 'login' %}">vous connecter</a></p>
+{% endif %}
 
 {% endblock %}

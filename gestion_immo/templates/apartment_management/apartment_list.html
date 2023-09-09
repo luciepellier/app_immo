@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb p-3 bg-light">
       <li class="breadcrumb-item active" aria-current="page">Vous êtes sur : Liste d'Appartements</li>
@@ -51,5 +53,9 @@
     </tbody>
 
 </table>
+
+{% else %}
+    <p>Bonjour, nouvel utilisateur. Pour accéder à cet espace, merci de <a href="{% url 'login' %}">vous connecter</a></p>
+{% endif %}
 
 {% endblock content %}
