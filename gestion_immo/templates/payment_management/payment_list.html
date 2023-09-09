@@ -37,7 +37,7 @@
                     </a>
                     <form action="{% url 'payment_delete' payment.id %}" method="post" class="d-inline">
                         {% csrf_token %}
-                        <button type="submit" class="btn">
+                        <button type="submit" onclick="return confirm('Êtes-vous sûr.e de vouloir supprimer ce paiement ?')" class="btn">
                             <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
                         </button> 
                     </form>
