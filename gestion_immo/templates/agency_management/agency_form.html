@@ -1,52 +1,41 @@
 {% extends 'apartment_management/base.html' %}
 {% load crispy_forms_tags %} 
 
+{% block title %}Créer un compte{% endblock %}
+
 {% block content %}
 
-{% if user.is_authenticated %}
+<h2>Créer mon compte utilisateur agence</h2>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb p-3 bg-light">
-      <li class="breadcrumb-item active" aria-current="page">Vous êtes sur : Ajouter / Modifier une Agence</li>
-    </ol>
-</nav>
-
-<form action="" method="post" autocomplete="off">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-md-4">
-            {{form.first_name|as_crispy_field}}
+<p>
+    <form action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4">
+                {{form.first_name|as_crispy_field}}
+            </div>
+            <div class="col-md-4">
+                {{form.last_name|as_crispy_field}}
+            </div>
+            <div class="col-md-4">
+                {{form.username|as_crispy_field}}
+            </div>
+            <div>
+                {{form.city|as_crispy_field}}
+            </div>
+            <div class="col-md-8">
+                {{form.password1|as_crispy_field}}
+            </div>
+            <div class="col-md-4">
+                {{form.password2|as_crispy_field}}
+            </div>
         </div>
-        <div class="col-md-4">
-            {{form.last_name|as_crispy_field}}
+        <div class="row">
+            <div class="col-md d-grid gap-2">
+                <button type="submit" class="btn btn-success btn-lg"><i class="fa-solid fa-floppy-disk"></i> </i>Enregistrer</button>
+            </div>
         </div>
-        <div class="col-md-4">
-            {{form.username|as_crispy_field}}
-        </div>
-        <div>
-            {{form.city|as_crispy_field}}
-        </div>
-        <div class="col-md-8">
-            {{form.password1|as_crispy_field}}
-        </div>
-        <div class="col-md-4">
-            {{form.password2|as_crispy_field}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8 d-grid gap-2">
-            <button type="submit" class="btn btn-success btn-lg"><i class="fa-solid fa-floppy-disk"></i> </i>Enregistrer</button>
-        </div>
-        <div class="col-md-4 d-grid gap-2">
-        <a href="{% url 'agency_list' %}" class="btn btn-secondary btn-lg">
-            <i class="fas fa-list"></i> Retour sans modification
-        </a>
-        </div>
-    </div>
-</form>
-
-{% else %}
-    <p>Bonjour, nouvel utilisateur. Pour accéder à cet espace, merci de <a href="{% url 'login' %}">vous connecter</a></p>
-{% endif %}
+    </form>
+</p>
 
 {% endblock content %}
