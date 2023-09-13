@@ -3,7 +3,7 @@ from django import forms
 from project_immo import settings
 from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt
 from accounts.models import Agency
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 class ApartmentForm(forms.ModelForm):
     class Meta:
@@ -73,6 +73,30 @@ class AgencyForm(UserCreationForm):
         if commit:
             user.save()
         return user   
+
+class AgencyUpdateForm(UserChangeForm):
+    username = forms.CharField(label ='Nom d\'utilisateur', 
+                               help_text = ('Requis. 150 caractères ou moins. Lettres, chiffres et @/./+/-/_ uniquement.'), 
+                               error_messages =
+                                    {'unique': 'Ce nom d\'utilisateur existe déjà. Merci d\'en saisir un autre.',
+                                     'invalid': 'Entrez un nom d\'utilisateur valide. Cette valeur ne peut contenir que des lettres, des chiffres et des caractères @/./+/-/_.'
+                                    },
+                                )
+    email = forms.EmailField(required = True, error_messages =
+                                    {'unique': 'Cette adresse e-mail existe déjà. Merci d\'en saisir une autre.',
+                                     'invalid': 'Entrez une adresse e-mail valide.'
+                                    },)
+
+    class Meta(UserChangeForm.Meta):
+        model = Agency
+        fields = UserCreationForm.Meta.fields + ('username', 'first_name', 'last_name', 'email', 'city')
+        labels = {
+            'first_name' : 'Prénom',
+            'last_name' : 'Nom',
+            'city' : 'Ville',
+            'name' : 'Nom',
+        }
+        exclude = ('password1', 'password2')
 
 class DateInput(forms.DateInput):
     input_type = 'date'
