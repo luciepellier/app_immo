@@ -39,6 +39,7 @@ urlpatterns = [
     # routes for agency 
     path('agency/', views.agency_form, name='agency_insert'),
     path('agency/<int:id>/', views.agency_form, name='agency_update'),
+    path('agency_password/<int:id>/', views.agency_password_form, name='agency_password_update'),
     path('agency/delete/<int:id>/', views.agency_delete, name='agency_delete'),    
     path('agency/list/', views.agency_list, name='agency_list'),
 ]
