@@ -7,7 +7,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 import os
 
-from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm, AgencyForm, AgencyUpdateForm, PasswordChangeForm
+from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm, AgencyForm, AgencyUpdateForm
 from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
 
 from datetime import datetime
@@ -125,25 +125,6 @@ def agency_form(request, id=0):
             else:
                 return render(request, 'agency_management/agency_update_form.html', {'form' : form})
             return redirect('agency_list')
-
-def agency_password_form(request, id=0):
-    # manage get request
-    if request.method == 'GET':
-        id == 0
-        agency = Agency.objects.get(pk=id)
-        print(agency)
-        form = PasswordChangeForm(instance = agency)
-        return render(request, 'agency_management/agency_password_update_form.html', {'form':form})
-    # manage post request
-    else:
-        id == 0
-        agency = Agency.objects.get(pk=id)
-        form = PasswordChangeForm(request.POST, instance = agency) 
-        if form.is_valid():
-            form.save()
-        else:
-            return render(request, 'agency_management/agency_password_update_form.html', {'form' : form})
-        return redirect('agency_list')
 
 def agency_delete(request,id):
     agency = Agency.objects.get(pk=id)

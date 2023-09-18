@@ -10,6 +10,10 @@
     </ol>
 </nav>
 
+<div class="alert alert-primary" role="alert">
+    Pour supprimer votre utilisateur, merci de contacter l'administrateur à infeco@infeco.com ou vous connecter en tant que SuperUser
+</div>
+
 <table class="table table-borderless">
 <thead class="border-bottom font-weight-bold">
     <tr class="">
@@ -28,24 +32,26 @@
                     <a href="{% url 'commission_list' agency.id %}" class="btn text-secondary px=10">
                         <i class="fa fa-percent fa-lg"></i>
                     </a>
-                    {% if user.is_superuser %}
+                    
                     <a href="{% url 'agency_update' agency.id %}" class="btn text-secondary px-20">
                         <i class="far fa-edit fa-lg"></i>
                     </a>
+
+                    <a href="{% url 'password_change' %}" class="btn text-secondary px-20">
+                        <i class="fa fa-key fa-lg"></i>
+                    </a>
+
+                    {% if user.is_superuser %}
+
                     <form action="{% url 'agency_delete' agency.id %}" method="post" class="d-inline">
                         {% csrf_token %}
                         <button type="submit" onclick="return confirm('Êtes-vous sûr.e de vouloir supprimer cet utilisateur ?')" class="btn">
                             <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
                         </button> 
                     </form>
+
                     {% else %}
-                    <a href="{% url 'agency_update' agency.id %}" class="btn text-secondary px-20">
-                        <i class="far fa-edit fa-lg"></i>
-                    </a>
-                        <button onclick="return confirm('Vous n\'êtes pas autorisé à supprimer un utilisateur. Merci de contacter Infeco (Super Utilisateur) à : infeco@infeco.com')" class="btn">
-                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
-                        </button> 
-                    </form>
+
                     {% endif %}
                 </td>
             </tr>
