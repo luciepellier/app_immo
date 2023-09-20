@@ -30,7 +30,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'myimmoproject-d430252df3db.herokuapp.com'
+    'myimmoproject-d430252df3db-4c7ace539426.herokuapp.com'
 ]
 
 # Application definition
