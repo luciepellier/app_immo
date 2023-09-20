@@ -9,11 +9,11 @@
       <li class="breadcrumb-item active" aria-current="page">Vous êtes sur : Liste d'Agences</li>
     </ol>
 </nav>
-
+{% if not user.is_superuser %}
 <div class="alert alert-primary" role="alert">
-    Pour supprimer votre utilisateur, merci de contacter l'administrateur à infeco@infeco.com ou vous connecter en tant que SuperUser
+    Pour supprimer votre utilisateur, merci de contacter infeco@infeco.com ou vous connecter en tant que Superuser
 </div>
-
+{% endif %}
 <table class="table table-borderless">
 <thead class="border-bottom font-weight-bold">
     <tr class="">
@@ -49,8 +49,6 @@
                             <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
                         </button> 
                     </form>
-
-                    {% else %}
 
                     {% endif %}
                 </td>
