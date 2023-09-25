@@ -120,7 +120,13 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGIN_REDIRECT_URL = "contract_list"
 LOGOUT_REDIRECT_URL = "login"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.environ["GMAIL_SMTP_USER"]
+# EMAIL_HOST_PASSWORD = os.environ["GMAIL_SMTP_PASSWORD"]
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
 # EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 # Internationalization
