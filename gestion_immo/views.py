@@ -7,7 +7,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 import os
 
-from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm, AgencyForm
+from .forms import ApartmentForm, OccupantForm, ContractForm, ItemsListForm, PaymentForm, ReceiptForm, AgencyForm, AgencyUpdateForm
 from .models import Apartment, Occupant, Contract, ItemsList, Payment, Receipt, Agency
 
 from datetime import datetime
@@ -103,22 +103,28 @@ def agency_form(request, id=0):
             #filter by id
             agency = Agency.objects.get(pk=id)
             # return the form object
-            form = AgencyForm(instance = agency)
+            form = AgencyUpdateForm(instance = agency)
+            return render(request, 'agency_management/agency_update_form.html', {'form':form})
         return render(request, 'agency_management/agency_form.html', {'form':form})
     # manage post request
     else:
         if id == 0:
             form = AgencyForm(request.POST)
+            if form.is_valid():
+                form.save()
+            else:
+                return render(request, 'agency_management/agency_form.html', {'form' : form})
+            return redirect('login')
         # otherwise the info is updated
         else:
             agency = Agency.objects.get(pk=id)
-            form = AgencyForm(request.POST, instance = agency) 
+            form = AgencyUpdateForm(request.POST, instance = agency) 
         # if the validation is ok then save to db          
-        if form.is_valid():
-            form.save()
-        else:
-            return render(request, 'agency_management/agency_form.html', {'form' : form})
-        return redirect('login')
+            if form.is_valid():
+                form.save()
+            else:
+                return render(request, 'agency_management/agency_update_form.html', {'form' : form})
+            return redirect('agency_list')
 
 def agency_delete(request,id):
     agency = Agency.objects.get(pk=id)

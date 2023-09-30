@@ -1,13 +1,18 @@
 {% extends 'apartment_management/base.html' %}
 {% load crispy_forms_tags %} 
 
-{% block title %}Créer un compte{% endblock %}
+{% block title %}Modifier les données agence{% endblock %}
 
 {% block content %}
 
-{% if not user.is_authenticated %}
+{% if user.is_authenticated %}
 
-<h2>Créer mon compte utilisateur agence</h2>
+<h2>Modifier l'information du profil agence</h2>
+
+<div> <a href="{% url 'agency_list' %}" class="btn btn-link">
+    <i class="fa fa-chevron-circle-left"></i> Retour à la liste
+</a></div>
+<br/>
 
 <p>
     <form action="" method="post" autocomplete="off">
@@ -28,12 +33,6 @@
             <div>
                 {{form.city|as_crispy_field}}
             </div>
-            <div class="col-md-6">
-                {{form.password1|as_crispy_field}}
-            </div>
-            <div class="col-md-6">
-                {{form.password2|as_crispy_field}}
-            </div>
         </div>
         <div class="row">
             <div class="col-md d-grid gap-2">
@@ -44,7 +43,7 @@
 </p>
 
 {% else %}
-    <p>Bonjour, {{user.name}}. Votre compte agence est déjà créé. Veuillez revenir sur <a href="{% url 'contract_list' %}">votre espace.</a></p>
+    <p>Bonjour, nouvel utilisateur. Pour accéder à cet espace, merci de <a href="{% url 'login' %}">vous connecter</a></p>
 {% endif %}
 
 {% endblock content %}
