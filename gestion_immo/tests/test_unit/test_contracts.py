@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 from datetime import date
-from ..models import Apartment, Occupant, Contract
+from gestion_immo.models import Apartment, Occupant, Contract
 
 # VIEWS TESTS
 

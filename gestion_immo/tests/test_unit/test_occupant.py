@@ -1,6 +1,6 @@
 import pytest
 from django.urls import reverse
-from ..models import Occupant
+from gestion_immo.models import Occupant
 
 # VIEWS TESTS
 

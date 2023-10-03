@@ -1,6 +1,6 @@
 import pytest
 from django.urls import reverse
-from ..models import Apartment
+from gestion_immo.models import Apartment
 
 # VIEWS TESTS
 
