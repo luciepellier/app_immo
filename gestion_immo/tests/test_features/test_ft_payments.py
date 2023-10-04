@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from accounts.models import Agency
-from gestion_immo.models import Apartment, Occupant, Contract, ItemsList, Payment
+from gestion_immo.models import Apartment, Occupant, Contract, Payment
 from gestion_immo.forms import PaymentForm
 from datetime import date
 
@@ -24,7 +24,7 @@ class PaymentFeatureTest(TestCase):
     def setUp(self):
         self.create_log_in_agency()      
 
-    def test_user_creates_and_edits_itemslist(self):
+    def test_user_creates_and_edits_payment(self):
 
         # Check if the user is created and logged in
         self.assertEqual(self.user.username, self.username)
