@@ -5,7 +5,7 @@ from gestion_immo.models import Apartment, Occupant, Contract, Payment
 from datetime import date
 
 class ReceiptFeatureTest(TestCase):
-    # Conditions for the test : user created and authenticated in the application
+
     def create_log_in_agency(self):
         self.username = "johnsmith"
         self.password = "smith_123098"
@@ -20,22 +20,7 @@ class ReceiptFeatureTest(TestCase):
 
         self.client.force_login(self.user)
 
-    def setUp(self):
-        self.create_log_in_agency()   
-
-    def test_user_generates_receipt_pdf(self):
-
-        # Check if the user is created and logged in
-        self.assertEqual(self.user.username, self.username)
-        self.assertEqual(self.user.is_authenticated, True) 
-
-        # User enters apartment insert page
-        apartment_url = reverse('apartment_insert')
-        response = self.client.get(apartment_url)
-        assert response.status_code == 200
-        assert response.context['request'].path == '/apartment/'
-
-        # User creates an apartment
+    def create_apartment(self):
         self.address = "15 rue de la Republique"
         self.address_complement = "3-2"
         self.city = "Lyon"
@@ -46,46 +31,15 @@ class ReceiptFeatureTest(TestCase):
 
         self.apartment = Apartment.objects.create(address=self.address, address_complement=self.address_complement, city=self.city, postal_code=self.postal_code, rental_price=self.rental_price, charges_price=self.charges_price, deposit_price=self.deposit_price)
         self.apartment.save()
-    
-        # Check if the apartment is created with the correct data
-        self.assertEqual(self.apartment.address, self.address)
-        self.assertEqual(Apartment.objects.count(), 1)
 
-        # User enters the occupant insert page
-        occupant_url = reverse('occupant_insert')
-        response = self.client.get(occupant_url)
-        assert response.status_code == 200
-        assert response.context['request'].path == '/occupant/'
-
-        # User creates an occupant
+    def create_occupant(self):
         self.first_name = "Tom"
         self.last_name = "Jones"
         self.email = "tom@jones.com"
-
         self.occupant = Occupant.objects.create(first_name=self.first_name, last_name=self.last_name, email=self.email)
         self.occupant.save()
 
-        # Check if the occupant is created with the correct data
-        self.assertEqual(self.occupant.last_name, self.last_name)
-        self.assertEqual(Occupant.objects.count(), 1)
-
-        # Load the contract list URL in the "client"
-        contractlist_url = reverse('contract_list')
-        response = self.client.get(contractlist_url)
-
-        # Check if the page response is 200 & if the path is correct
-        # This response should contain "Ajouter un contrat" string, button available only for logged in users 
-        assert response.status_code == 200
-        assert response.context['request'].path == '/contract/list/'
-        assert 'Ajouter un contrat' in str(response.content) 
-
-        # User enters contract insert page
-        contract_url = reverse('contract_insert')
-        response = self.client.get(contract_url)
-        assert response.status_code == 200
-        assert response.context['request'].path == '/contract/'
-
-        # User creates a contract
+    def create_contract(self):
         self.apartment = self.apartment
         self.occupant = self.occupant
         self.agency = self.user
@@ -93,83 +47,79 @@ class ReceiptFeatureTest(TestCase):
         contract_duration = self.start_date.year + 3
         self.end_date = self.start_date.replace(contract_duration)
         self.deposit = True
-
         self.contract = Contract.objects.create(apartment=self.apartment, occupant=self.occupant, agency=self.agency, start_date=self.start_date, end_date=self.end_date, deposit=self.deposit)
         self.contract.save()
-    
-        # Check if the contract is created with the correct data
-        self.assertEqual(self.contract.apartment, self.apartment)
-        self.assertEqual(self.contract.occupant, self.occupant)
-        self.assertEqual(self.contract.agency, self.agency)
-        self.assertEqual(Contract.objects.count(), 1)
 
-        # User enters contract insert page
-        payment_url = reverse('payment_insert')
-        response = self.client.get(payment_url)
-        assert response.status_code == 200
-        assert response.context['request'].path == '/payment/'
-
-        # User creates an payment 1 for this contract
+    def create_payments(self):
         self.contract = self.contract
         self.date = date.today()
         self.source = "Locataire"
         self.rental = 900.00
         self.charges = 200.00
-
         self.payment_1 = Payment.objects.create(contract=self.contract, date=self.date, source=self.source, rental=self.rental, charges=self.charges)
         self.payment_1.save()
-    
-        # Check if the payment 1 is created with the correct data
-        self.assertEqual(self.payment_1.contract, self.contract)
-        self.assertEqual(self.payment_1.rental, self.rental)
-        self.assertEqual(Payment.objects.count(), 1)
-
-        # User creates payment 2 for this contract
+        
         self.contract = self.contract
         self.date = date.today()
-        new_payment_date = self.date.month + 1
-        self.date = self.date.replace(new_payment_date)
+        self.payment_date_2 = self.date.month + 1
+        self.date = self.date.replace(self.payment_date_2)
         self.source = "Locataire"
         self.rental = 900.00
         self.charges = 200.00
-
         self.payment_2 = Payment.objects.create(contract=self.contract, date=self.date, source=self.source, rental=self.rental, charges=self.charges)
         self.payment_2.save()
 
-        # Check if the payment 2 is created with the correct data
-        self.assertEqual(self.payment_2.contract, self.contract)
-        self.assertEqual(self.payment_2.rental, self.rental)
-        self.assertEqual(Payment.objects.count(), 2)
-
-        # User creates payment 3 for this contract
         self.contract = self.contract
         self.date = date.today()
-        new_payment_date = self.date.month + 2
-        self.date = self.date.replace(new_payment_date)
+        self.payment_date_3 = self.date.month + 2
+        self.date = self.date.replace(self.payment_date_3)
         self.source = "CAF"
         self.rental = 450.00
         self.charges = 0.00
-
         self.payment_3 = Payment.objects.create(contract=self.contract, date=self.date, source=self.source, rental=self.rental, charges=self.charges)
         self.payment_3.save()
 
-        # Check if the payment 3 is created with the correct data
-        self.assertEqual(self.payment_3.contract, self.contract)
-        self.assertEqual(self.payment_3.rental, self.rental)
-        self.assertEqual(Payment.objects.count(), 3)
+    def setUp(self):
+        self.create_log_in_agency()
+        self.create_apartment()
+        self.create_occupant()
+        self.create_contract()
+        self.create_payments()
 
-        # Load the rental list URL in the "client"
+    def test_generate_receipt_pdf(self):
+        # Ensure the user is logged in
+        self.assertTrue(self.user.is_authenticated)
+
+        # User enters the receipt form
+        receipt_form_url = reverse('receipt_form')
+        response = self.client.get(receipt_form_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'receipt_management/receipt_form.html')
+
+        # Post data to generate a receipt PDF for a date range with satisfied payments
         render_pdf_url = reverse("render_pdf_view")
-        
         data = {
-          "contract": self.contract.id,
-          "start_date": "2023-10-01",
-          "end_date": "2023-11-30",
+            "contract": self.contract.id,
+            "start_date": "2023-10-01",
+            "end_date": "2023-10-30",
         }
-        headers = {"Content-Type": "application/x-www-form-urlencoded"}
-        response = self.client.post(render_pdf_url, data, **headers)
+        response = self.client.post(render_pdf_url, data)
         
-        # Check if the page response is 200 & if the path is correct
+        # Check if a PDF is generated for satisfied payments period
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/pdf')
 
-        assert response.status_code == 200
-        assert response.context['request'].path == '/receipt/pdf/'
+        # Modify the payments to simulate unsatisfied payments period
+        render_pdf_url = reverse("render_pdf_view")
+        data = {
+            "contract": self.contract.id,
+            "start_date": "2023-10-01",
+            "end_date": "2023-12-31",
+        }
+
+        # Post data to generate a receipt PDF for the same date range with unsatisfied payments
+        response = self.client.post(render_pdf_url, data)
+        
+        # Check if the view redirects to the receipt template for unsatisfied payments
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'receipt_management/no-receipt.html')
