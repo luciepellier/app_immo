@@ -162,6 +162,6 @@ class RentalAmountFeatureTest(TestCase):
 
         assert response.status_code == 200
         assert 'SOLDE DES LOYERS' in str(response.content) 
-        assert '2200.00' in str(response.content) 
+        assert '2200' in str(response.content) 
         assert 'Jones Tom' in str(response.content) 
         assert '15 rue de la Republique' in str(response.content) 

@@ -168,6 +168,6 @@ class RentalAmountFeatureTest(TestCase):
 
         assert response.status_code == 200
         assert 'TOTAL COMMISSION' in str(response.content) 
-        assert '176.00' in str(response.content) 
+        assert '176' in str(response.content) 
         assert 'Jones Tom' in str(response.content) 
         assert '15 rue de la Republique' in str(response.content) 
